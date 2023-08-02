@@ -26,7 +26,6 @@ public class LectureRepositoryTest {
         //given
         Lecture lecture = new Major();
         lecture.setKorName("데이터사이언스");
-        lecture.setGrade(3);
         lecture.setClassroom("SH501");
         //when
         lectureRepository.save(lecture);
