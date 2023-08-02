@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0 auto;}
+
+
+
+    #head_bar{
+      overflow:visible;
+      height:70px;
+      width:2000px;
+      background-color: #dadada;
+    }
+
+    #head_bar .one{
+      float:left;
+      height:70px;
+      width:200px;
+      font-size:20px;
+      text-align: center;
+      line-height:70px;
+      background-color: #094a9a;
+      color:#fff;
+      box-sizing: border-box;
+      margin-right: 200px;
+
+    }
+
+    #head_bar .ttt{
+      float:left;
+      height:70px;
+      width:200px;
+      line-height:70px;
+      text-align: center;
+      font-size:20px;
+      margin-right:-50px;
+
+
+
+    }
+
+    #head_bar .ttt_1{
+      float:left;
+      background-color: white;
+      text-align: center;
+      line-height:60px;
+      height:60px;
+      width:200px;
+      font-size:20px;
+      border:solid 1px black;
+      margin :5px;
+    }
+
+    #btn_bar {
+      margin :5px;
+    }
+
+    #btn_bar .btn{
+      float:left;
+      background-color: #094a9a;
+      /*width:100x;*/
+      height:50px;
+      margin-right:10px;
+      text-align: center;
+      color:#fff;
+      margin-bottom: 20px;
+    }
+
+    #list_head {
+      height:450px;
+      width:2000px;
+      text-align: center;
+      margin-left: 0px;
+      white-space:nowrap;
+    }
+
+    #sub_list {
+      float:left;
+      text-align: center;
+      height:400px;
+      width:1800px;
+      margin-left: 5px;
+      border-collapse : collapse;
+      margin-bottom: 20px;
+
+    }
+    .tr th{
+      background-color: #dadada;
+    }
+
+    .list_btn {
+      height:35px;
+      width:45px;
+      background-color: #094a9a;
+      color:#fff;
+    }
+    .jpg{
+      float:left;
+      width:30px;
+      height:30px;
+      background-color: #094a9a;
+      color:#fff;
+      text-align: center;
+      font-size:15px;
+
+
+    }
+
+    #list_jpg{
+      float:left;
+      width:1000px;
+      margin-bottom: 20px;
+    }
+
+    #last_list{
+      float:left;
+      text-align: center;
+      height:210px;
+      width:1800px;
+      margin-left: 5px;
+      border-collapse : collapse;
+      margin-bottom: 20px;
+      table-layout: fixed;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="head_bar">
+  <div class="one">2023년도 2학기</div>
+  <div class="ttt"> 교육과목 </div>
+
+  <div class="ttt_1">컴퓨터공학과</div>
+
+  <!--  <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>-- 이것 처럼 동적으로 세션에서 꺼내서 과져와야함-->
+  <div class="ttt"> 성명 </div>
+  <div class="ttt_1">그림자군주김남기</div>
+
+</div>
+
+
+<div id="btn_bar">
+  <button onclick="location.href='/test';" class="btn">    전공과목       </button>
+  <button onclick="location.href='/test';" class="btn">    교양과목       </button>
+  <button onclick="location.href='/test';" class="btn">    과목명(코드) 조회       </button>
+  <button onclick="location.href='/test';" class="btn">    공지사항       </button>
+
+<!--  <button onclick="location.href='/test';" class="btn">    타학과과목       </button>-->
+<!--  <button onclick="location.href='/test';" class="btn">    연계학과과목       </button>-->
+</div>
+<form method="post">
+  <div id=list_head style="overflow-y: scroll; height: 700px">
+    <table border="1" id="sub_list">
+
+      <tr class="tr">
+        <th>이수구분</th>
+        <th>학수번호</th> <!-- 일단 DB id 값으로 대체-->
+        <th>교과목명</th>
+        <th>학점</th>
+        <th>교수</th>
+        <th>신청</th>
+    </tr>
+
+    <tr th:each="lecture : ${lectures}">
+        <td th:text="${lecture.getType()}"></td>
+        <td th:text="${lecture.getId()}"></td>
+        <td th:text="${lecture.getKorName()}"></td>
+        <td th:text="${lecture.getCredit()}"></td>
+        <td th:text="${lecture.getProfessorName()}"></td>
+        <td><a href="#" th:href="@{/registration/{id}(id=${lecture.getId()})}">신청하기</a></td>
+    </tr>
+    </table>
+  </div>
+</form>
+
+<div id=list_jpg>
+
+  <div class=jpg>
+    >
+  </div>
+
+  <div>
+    수강신청내역
+  </div>
+
+</div>
+<div class= temp_bar>
+  <table border="1" id="last_list">
+    <tr class="tr" id="chk_append">
+      <th>주차</th>
+      <th>이수구분</th>
+      <th>학수번호</th>
+      <th>교과목명</th>
+      <th>학점</th>
+      <th>원어여부</th>
+      <th>요일 및 교시(강의실)</th>
+      <th>개설학과</th>
+      <th>교강사</th>
+      <th>신청</th>
+    </tr>
+
+    <tr id="add_1" class="temp_1">
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td class="deltd_1"></td>
+      <td><input type ="button" value="취소" class="delete_btn_1"/></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
+
