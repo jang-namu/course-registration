@@ -21,7 +21,7 @@ public abstract class Lecture {
     private String type; //이수구분
     private String professorName; //교수명
     private int time; //강의 시간
-    private String grade; //학년
+    private int grade; //학년
     private String classroom; //강의실
     private int credit; //학점
     private int capacity; //수강정원
