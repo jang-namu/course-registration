@@ -1,12 +1,14 @@
 package com.dandytiger.course.domain.lecturestudent;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
 public class LectureStudent {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue
+
     private Long id;
 
     // 대기 번호

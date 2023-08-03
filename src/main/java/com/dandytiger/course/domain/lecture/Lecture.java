@@ -1,5 +1,6 @@
 package com.dandytiger.course.domain.lecture;
 
+import com.dandytiger.course.exception.NotEnoughCapacityException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,28 @@ public abstract class Lecture {
     private String classroom; //강의실
     private int credit; //학점
     private int capacity; //수강정원
+    private int currentCount; //현재인원
+
+    //==비즈니스 로직==/
+
+    /**
+     * 현재인원 증가
+     */
+    public void addCurrentCount() {
+        int restCapacity = this.capacity - currentCount;
+        if (restCapacity <= 0) {
+            throw new NotEnoughCapacityException("no more capacity");
+        }
+        this.currentCount += 1;
+
+    }
+
+    /**
+     * 현재인원 감소
+     */
+    public void reduceCurrentCount() {
+        this.currentCount -= 1;
+    }
 
 
 }
