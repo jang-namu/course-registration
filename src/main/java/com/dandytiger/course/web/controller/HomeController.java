@@ -69,7 +69,7 @@ public class HomeController {
             return "join";
         }
 
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
@@ -81,7 +81,7 @@ public class HomeController {
             session.invalidate();
         }
 
-        return "redirect:/home";
+        return "redirect:/ ";
     }
 
 }

@@ -3,6 +3,8 @@ package com.dandytiger.course.web.controller;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.student.Student;
 import com.dandytiger.course.service.LectureService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +22,19 @@ public class RegistrationController {
     private final LectureService lectureService;
     @GetMapping("/registration")
     public String courseRegistration(Model model,
-                                     @SessionAttribute(name="student", required = true) Student student){
+                                     HttpServletRequest httpServletRequest){
+
+        HttpSession session = httpServletRequest.getSession(false);
+
+        if (session == null) {
+            return "redirect:/";
+        }
+
+        Student student = (Student) session.getAttribute("student");
 
         if (student == null) {
-            return "redirect:/home";
+            session.invalidate();
+            return "redirect:/";
         }
 
         model.addAttribute("name", student.getName());
