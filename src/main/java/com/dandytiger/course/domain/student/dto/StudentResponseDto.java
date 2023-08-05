@@ -19,6 +19,5 @@ public class StudentResponseDto {
 
     private String name;
 
-    // private String password;
-
+    private String loginId;
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter
 public abstract class Lecture {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_id")
     private Long id;
 
