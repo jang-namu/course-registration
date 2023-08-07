@@ -40,7 +40,7 @@ public class LectureInitData {
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/supportkim/Desktop/강의계획서.xlsx";
+                String excelFilePath = "/Users/namu/강의계획서.xlsx";
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
                 // 워크북(엑셀 파일) 생성
@@ -57,6 +57,7 @@ public class LectureInitData {
                 if (rowIterator.hasNext()) {
                     rowIterator.next(); // 헤더 행은 건너뜁니다.
                 }
+
                 // 각 행을 순회하며 데이터를 읽어서 객체로 변환하여 리스트에 추가
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();

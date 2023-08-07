@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    ol, ul{
+      list-style:none;
+    }
+
+    #login .login_con .menu>ul li:nth-child(1){
+
+      margin-bottom: 20px;
+    }
+    #login .login_con .menu>ul li:nth-child(2){
+
+      margin-bottom: 20px;
+    }
+    #login .login_con .menu>ul li:nth-child(3){
+
+      margin-bottom: 20px;
+    }
+    #login .login_con .menu>ul li:nth-child(4){
+
+      margin-bottom: 20px;
+    }
+
+
+    #login .login_con .menu>ul li{
+      width:175px;
+    }
+
+    #login{
+      position: absolute;
+      top:50%;
+      left:50%;
+      margin:-190px 0 0 -464px;
+      width: 928px;
+      height:400px;
+
+    }
+    #login .tit{
+      margin-bottom: 18px;
+
+
+    }
+    #login .tit h1{
+      margin: 0 22px 0 38px;
+
+
+    }
+    #login .login_con{
+      box-sizing:border-box;
+      padding:60px 60px 0 60px;
+      background-color:#094a9a;
+      width:928px;
+    }
+    #login .login_con h3{
+      margin-bottom: 34px;
+    }
+    #login .login_con .login_area{
+      position: relative;
+    }
+    #login .login_con .login_area>div{
+      overflow:hidden;
+    }
+    #login .id_w{
+      position: relative;
+    }
+
+    #login .id_w>p{
+      table-layout: fixed;
+      display: table;
+      margin-bottom : 8px;
+    }
+    #login .id_w>p>label{
+      display: table-cell;
+      width: 110px;
+      height: 32px;
+      vertical-align : middle;
+      color : #fff;
+      font-weight:bold;
+    }
+    #login .id_w .txt {
+      padding-top: 10px;
+      font-weight: bold;
+      color: #e2e0e1;
+      font-size: 11px;
+    }
+    .btn_login {
+      display: block;
+      position: absolute;
+      top: 19px;
+      left: 300px;
+      box-sizing: border-box;
+      padding-top: 4px;
+      width: 86px;
+      height: 68px;
+      cursor: pointer;
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+<div id="login">
+  <div class="tit">
+    <h1>&nbsp;
+      <font size="30" color=#165298B>회원가입</font>
+      <span style="font-size:0.7em;">Course registration</span>
+
+    </h1>
+  </div>
+
+  <div class=login_con>
+    <div id=test>
+    </div>
+    <form name="mainForm" method="post" autocomplete="off" th:object="${joinForm}">
+      <h3>
+        <font size="26" color=white>LOGIN</font>
+      </h3>
+      <div class=login_area>
+        <div class="id_w">
+          <p>
+            <label for="id">아이디(학번)</label>
+            <span>
+					<input type="text" name="loginId" id="id" th:field="*{loginId}">
+				</span>
+          </p>
+          <p>
+            <label for="pw">포털비밀번호</label>
+            <span>
+					<input type="password"  name="pwd" id="pw" th:field="*{pw}">
+				</span>
+          </p>
+          <p>
+            <label for="grade">학년</label>
+            <span>
+					<input type="text" name="grade" id="grade" th:field="*{grade}">
+				</span>
+          </p>
+          <p>
+            <label for="name">이름</label>
+            <span>
+					<input type="text" name="name" id="name" th:field="*{name}">
+				</span>
+          </p>
+          <p>
+            <label for="major">전공</label>
+            <span>
+					<input type="text" name="major" id="major" th:field="*{major}">
+				</span>
+          </p>
+          <button type="submit" class="btn_login">회원가입</button>
+          <p class="txt">* 아이디(학번) / 비밀번호는 포털시스템과 동일합니다.</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

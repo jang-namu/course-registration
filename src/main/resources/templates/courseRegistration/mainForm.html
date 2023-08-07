@@ -138,12 +138,12 @@
   <div class="one">2023년도 2학기</div>
   <div class="ttt"> 교육과목 </div>
 
-  <div class="ttt_1">컴퓨터공학과</div>
+  <div class="ttt_1" th:text="${major}"></div>
 
   <!--  <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>-- 이것 처럼 동적으로 세션에서 꺼내서 과져와야함-->
   <div class="ttt"> 성명 </div>
-  <div class="ttt_1">그림자군주김남기</div>
-
+  <div class="ttt_1" th:text="${name}"></div>
+  <button th:onclick="|location.href='@{/logout}'|">로그아웃</button>
 </div>
 
 

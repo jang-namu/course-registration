@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 public class LectureStudent {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 대기 번호
