@@ -7,6 +7,8 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ import java.util.List;
 public class LectureInitData {
 
     private final initService initService;
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
     public void init() {
         initService.init();
     }
@@ -40,7 +42,7 @@ public class LectureInitData {
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/namu/강의계획서.xlsx";
+                String excelFilePath = "/Users/kimnamki/Desktop/강의계획서.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -75,7 +77,13 @@ public class LectureInitData {
                     lecture.setCredit((int)row.getCell(12).getNumericCellValue());
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
-                    //lecture.setGrade(row.getCell(5).getStringCellValue());
+                    lecture.setGrade(row.getCell(5).getStringCellValue());
+
+                    /**
+                     * 수강정원(15명)/현재인원(0)명으로 통일
+                     */
+                    lecture.setCapacity(15);
+                    lecture.setCurrentCount(0);
 
                     // 이거는 아마 split 써서 파싱 해가지고 해야할듯..? 더 좋은 방법이 있다면 그 방법으로
 //                lecture.setClassroom(row.getCell());

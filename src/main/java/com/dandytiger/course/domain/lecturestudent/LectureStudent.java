@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Getter @Setter
@@ -32,7 +33,7 @@ public class LectureStudent {
 
     // 상태
     @Enumerated(EnumType.STRING)
-    private registrationStatus status;
+    private RegistrationStatus status;
 
     // 시간
     private LocalDateTime registrationTime;
@@ -45,9 +46,9 @@ public class LectureStudent {
         lectureStudent.setRegistrationTime(LocalDateTime.now());
 
         if (lecture.getCapacity() - lecture.getCurrentCount() == 0) {
-            lectureStudent.setStatus(registrationStatus.WAIT);
+            lectureStudent.setStatus(RegistrationStatus.WAIT);
         } else {
-            lectureStudent.setStatus(registrationStatus.COMPLETE);
+            lectureStudent.setStatus(RegistrationStatus.COMPLETE);
             lecture.addCurrentCount();
         }
 
@@ -60,7 +61,7 @@ public class LectureStudent {
      * 수강 취소
      */
     public void cancel() {
-        this.setStatus(registrationStatus.CANCEL);
+        this.setStatus(RegistrationStatus.CANCEL);
         getLecture().reduceCurrentCount();
     }
 

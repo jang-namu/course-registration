@@ -166,6 +166,8 @@
         <th>교과목명</th>
         <th>학점</th>
         <th>교수</th>
+        <th>수강정원</th>
+        <th>현재인원</th>
         <th>신청</th>
     </tr>
 
@@ -175,7 +177,10 @@
         <td th:text="${lecture.getKorName()}"></td>
         <td th:text="${lecture.getCredit()}"></td>
         <td th:text="${lecture.getProfessorName()}"></td>
-        <td><a href="#" th:href="@{/registration/{id}(id=${lecture.getId()})}">신청하기</a></td>
+        <td th:text="${lecture.getCapacity()}"></td>
+        <td th:text="${lecture.getCurrentCount()}"></td>
+
+      <td><a href="#" th:href="@{/registration/{id}(id=${lecture.getId()})}">신청하기</a></td>
     </tr>
     </table>
   </div>

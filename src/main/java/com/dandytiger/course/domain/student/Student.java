@@ -33,9 +33,9 @@ public class Student {
     private String password;
 
     // 학생이 자신이 수강 신청한 과목들을 가져올 경우가 많을 거 같아 단방향 매핑
-    @OneToMany
-    @JoinColumn(name="student_id")
-    private List<LectureStudent> registrationLectures = new ArrayList<>();
+//    @OneToMany
+//    @JoinColumn(name="student_id")
+//    private List<LectureStudent> registrationLectures = new ArrayList<>();
 
 
 }

@@ -1,5 +1,5 @@
 package com.dandytiger.course.domain.lecturestudent;
 
-public enum registrationStatus {
+public enum RegistrationStatus {
     COMPLETE , CANCEL , WAIT
 }
