@@ -179,7 +179,6 @@
         <td th:text="${lecture.getProfessorName()}"></td>
         <td th:text="${lecture.getCapacity()}"></td>
         <td th:text="${lecture.getCurrentCount()}"></td>
-
       <td><a href="#" th:href="@{/registration/{id}(id=${lecture.getId()})}">신청하기</a></td>
     </tr>
     </table>
@@ -187,41 +186,30 @@
 </form>
 
 <div id=list_jpg>
-
   <div class=jpg>
     >
   </div>
-
   <div>
     수강신청내역
   </div>
-
 </div>
+
 <div class= temp_bar>
   <table border="1" id="last_list">
     <tr class="tr" id="chk_append">
-      <th>주차</th>
       <th>이수구분</th>
       <th>학수번호</th>
       <th>교과목명</th>
       <th>학점</th>
-      <th>원어여부</th>
-      <th>요일 및 교시(강의실)</th>
-      <th>개설학과</th>
-      <th>교강사</th>
+      <th>교수</th>
       <th>신청</th>
     </tr>
-
-    <tr id="add_1" class="temp_1">
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
+    <tr th:each="rl : ${lectureStudents}">
+      <td th:text="${rl.getLecture().getType()}"></td>
+      <td th:text="${rl.getLecture().getId()}"></td>
+      <td th:text="${rl.getLecture().getKorName()}"></td>
+      <td th:text="${rl.getLecture().getCredit()}"></td>
+      <td th:text="${rl.getLecture().getProfessorName()}"></td>
       <td><input type ="button" value="취소" class="delete_btn_1"/></td>
     </tr>
   </table>

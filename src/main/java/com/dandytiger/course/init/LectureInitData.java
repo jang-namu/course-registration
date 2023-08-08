@@ -2,7 +2,10 @@ package com.dandytiger.course.init;
 
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecture.Major;
+import com.dandytiger.course.domain.student.Student;
 import com.dandytiger.course.service.LectureService;
+import com.dandytiger.course.service.LectureStudentService;
+import com.dandytiger.course.service.StudentServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +31,9 @@ public class LectureInitData {
     private final initService initService;
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        initService.init();
+        initService.initLecture();
+        initService.initStudent();
+        initService.initTest();
     }
 
     @Component
@@ -36,13 +41,15 @@ public class LectureInitData {
     @RequiredArgsConstructor
     static class initService{
         private final LectureService lectureService;
+        private final StudentServiceImpl studentService;
+        private final LectureStudentService lectureStudentService;
 
-        public void init() {
+        public void initLecture() {
             try{
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/kimnamki/Desktop/강의계획서.xlsx";
+                String excelFilePath = "/Users/supportkim/Desktop/강의계획서.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -85,13 +92,13 @@ public class LectureInitData {
                     lecture.setCapacity(15);
                     lecture.setCurrentCount(0);
 
+                    log.info("LectureInitData CurrentCount =  {}",lecture.getCurrentCount());
+
                     // 이거는 아마 split 써서 파싱 해가지고 해야할듯..? 더 좋은 방법이 있다면 그 방법으로
 //                lecture.setClassroom(row.getCell());
 //                lecture.setTime(); 강의 시간 넣기 매우 애매 . .
 
                     lectureService.saveLecture(lecture);
-                    log.info("LectureInitData.init() 끝");
-
                 }
                 // 리소스 정리
                 workbook.close();
@@ -102,6 +109,34 @@ public class LectureInitData {
         }
 
 
+        public void initStudent() {
+            Student student = new Student();
+            student.setName("김지원");
+            student.setLoginId("201901554");
+            student.setGrade(3);
+            student.setPassword("1234");
+            student.setMajor("컴퓨터공학과");
+            studentService.testJoin(student);
+
+            List<Lecture> lectures = lectureService.findLectures();
+            int capacity1 = lectures.get(0).getCurrentCount();
+            int capacity2 = lectures.get(1).getCurrentCount();
+
+
+            log.info("initStudent after -> {}",capacity1);
+            log.info("initStudent after -> {}",capacity2);
+        }
+
+        public void initTest(){
+            Student testStudent = new Student();
+            testStudent.setName("테스트");
+            studentService.testJoin(testStudent);
+            List<Lecture> lectures = lectureService.findLectures();
+            Lecture testLecture = lectures.get(23);
+            for (int i = 0; i < 30; i++) {
+                lectureStudentService.apply(testStudent.getId(), testLecture.getId());
+            }
+        }
     }
 
 }

@@ -59,5 +59,11 @@ public class StudentServiceImpl {
         return true;
     }
 
+    // 테스트용 Join ..
+    public Student testJoin(Student student){
+        studentRepository.save(student);
+        return student;
+    }
+
 }
 

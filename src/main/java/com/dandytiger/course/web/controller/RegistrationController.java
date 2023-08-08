@@ -9,6 +9,7 @@ import com.dandytiger.course.service.LectureStudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class RegistrationController {
 
     private final LectureService lectureService;
@@ -45,6 +47,9 @@ public class RegistrationController {
 
         List<Lecture> lectures = lectureService.findLectures();
         model.addAttribute("lectures",lectures);
+
+        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+        model.addAttribute("lectureStudents",lectureStudents);
         return "courseRegistration/mainForm";
     }
     @GetMapping("/registration/test")
@@ -55,13 +60,18 @@ public class RegistrationController {
     // 지금은 회원가입이 없어서 일단 세션은 제외
     @PostMapping("/registration/{id}")
     public String requestCourseRegistration(@PathVariable("id") Long id,
-                                            HttpServletRequest request) {
+                                            HttpServletRequest request,Model model) {
         HttpSession session = request.getSession(false);
 
         Student student = (Student) session.getAttribute("student");
         lectureStudentService.apply(student.getId(), id);
+        return "redirect:/";
+    }
 
-        return "courseRegistration/mainForm";
+    @GetMapping("/registration/{id}")
+    public String beforeRequestCourseRegistration(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("id",id);
+        return "courseRegistration/beforeRequest";
     }
 
 //    @GetMapping("/registration/{id}/applis")

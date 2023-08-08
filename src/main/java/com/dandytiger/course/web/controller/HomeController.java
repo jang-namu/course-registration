@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,8 +39,12 @@ public class HomeController {
 
 
     @PostMapping("/")
-    public String login(@ModelAttribute("studentForm") StudentForm studentForm,
+    public String login(@Validated @ModelAttribute("studentForm") StudentForm studentForm, BindingResult bindingResult,
                         HttpServletRequest httpServletRequest) {
+
+        if (bindingResult.hasErrors()){
+            return "home";
+        }
 
         Student student = studentService.login(studentForm);
 
@@ -63,7 +69,11 @@ public class HomeController {
 
 
     @PostMapping("/join")
-    public String join(@ModelAttribute("joinForm") JoinForm joinForm) {
+    public String join(@Validated @ModelAttribute("joinForm") JoinForm joinForm,BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()){
+            return "join";
+        }
 
         if (!studentService.join(joinForm)) {
             return "join";

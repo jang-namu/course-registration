@@ -1,12 +1,14 @@
 package com.dandytiger.course.domain.lecturestudent;
 
 import com.dandytiger.course.domain.lecture.Lecture;
+import com.dandytiger.course.domain.lecture.Major;
 import com.dandytiger.course.domain.student.Student;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -14,10 +16,11 @@ import java.util.Optional;
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Slf4j
 public class LectureStudent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,17 +43,27 @@ public class LectureStudent {
 
     //==생성 메서드==//
     public static LectureStudent createLectureStudent(Student student, Lecture lecture) {
+
+        log.info("createLectureStudent start ");
+
         LectureStudent lectureStudent = new LectureStudent();
+
         lectureStudent.setStudent(student);
         lectureStudent.setLecture(lecture);
         lectureStudent.setRegistrationTime(LocalDateTime.now());
 
         if (lecture.getCapacity() - lecture.getCurrentCount() == 0) {
+            log.info("createLectureStudent start after WAIT ");
             lectureStudent.setStatus(RegistrationStatus.WAIT);
         } else {
+            log.info("createLectureStudent start after COMPLETE ");
             lectureStudent.setStatus(RegistrationStatus.COMPLETE);
-            lecture.addCurrentCount();
+            // lecture.addCurrentCount(); 말고 아래에 해야할듯?
         }
+
+        lecture.addCurrentCount();
+
+        log.info("createLectureStudent end ");
 
         return lectureStudent;
     }

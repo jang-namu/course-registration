@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <style>
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+
     ol, ul{
       list-style:none;
     }
@@ -123,31 +128,40 @@
           <p>
             <label for="id">아이디(학번)</label>
             <span>
-					<input type="text" name="loginId" id="id" th:field="*{loginId}">
+              <input type="text" name="stuno" id="id" th:field="*{loginId}" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{loginId}">아이디를 입력하세요</div>
 				</span>
           </p>
           <p>
             <label for="pw">포털비밀번호</label>
             <span>
-					<input type="password"  name="pwd" id="pw" th:field="*{pw}">
+              <input type="text" name="stuno" id="pw" th:field="*{pw}" th:errorclass="field-error">
+                <div class="field-error" th:errors="*{pw}">비밀번호를 입력하세요</div>
 				</span>
           </p>
           <p>
             <label for="grade">학년</label>
             <span>
-					<input type="text" name="grade" id="grade" th:field="*{grade}">
+              <input type="text" name="stuno" id="grade" th:field="*{grade}" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{grade}">학년을 입력하세요</div>
 				</span>
           </p>
+
+
+
+
           <p>
             <label for="name">이름</label>
             <span>
-					<input type="text" name="name" id="name" th:field="*{name}">
+					          <input type="text" name="stuno" id="name" th:field="*{name}" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{name}">이름을 입력하세요</div>
 				</span>
           </p>
           <p>
             <label for="major">전공</label>
             <span>
-					<input type="text" name="major" id="major" th:field="*{major}">
+					          <input type="text" name="stuno" id="major" th:field="*{major}" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{major}">전공을 입력하세요</div>
 				</span>
           </p>
           <button type="submit" class="btn_login">회원가입</button>
