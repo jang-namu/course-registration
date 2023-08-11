@@ -33,7 +33,7 @@ public class LectureInitData {
     public void init() {
         initService.initLecture();
         initService.initStudent();
-        initService.initTest();
+//        initService.initTest();
     }
 
     @Component
@@ -49,7 +49,7 @@ public class LectureInitData {
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/supportkim/Desktop/강의계획서.xlsx";
+                String excelFilePath = "/Users/kimnamki/Desktop/강의계획서(전).xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -74,8 +74,9 @@ public class LectureInitData {
 
                     Major lecture = new Major();
 
-                    lecture.setMajor("컴퓨터공학부");
+                    lecture.setMajor(row.getCell(2).getStringCellValue()); //학과
 
+                    lecture.setCode(row.getCell(6).getStringCellValue()); //과목코드
 
                     lecture.setKorName(row.getCell(7).getStringCellValue()); // 과목명
                     lecture.setType(row.getCell(4).getStringCellValue()); // 이수구분
@@ -84,7 +85,7 @@ public class LectureInitData {
                     lecture.setCredit((int)row.getCell(12).getNumericCellValue());
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
-                    lecture.setGrade(row.getCell(5).getStringCellValue());
+                    lecture.setGrade(row.getCell(3).getStringCellValue());
 
                     /**
                      * 수강정원(15명)/현재인원(0)명으로 통일

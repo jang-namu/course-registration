@@ -24,6 +24,22 @@ public class LectureService {
         return lectureRepository.findAll();
     }
 
+    public List<Lecture> findByLectureName(String name) {
+        return lectureRepository.findByLectureName(name);
+    }
+
+    public List<Lecture> findByCode(String code) {
+        return lectureRepository.findByCode(code);
+    }
+
+    public List<Lecture> findGELecture() {
+        return lectureRepository.findGELecture();
+    }
+
+    public List<Lecture> findMLecture() {
+        return lectureRepository.findMLecture();
+    }
+
     public Lecture findOne(Long lectureId) {
         return lectureRepository.findOne(lectureId);
     }

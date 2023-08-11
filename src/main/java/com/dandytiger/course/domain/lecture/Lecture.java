@@ -18,6 +18,8 @@ public abstract class Lecture {
     @Column(name = "lecture_id")
     private Long id;
 
+    private String code; //과목코드
+
     private String korName; //과목명(한)
     private String engName; //과목명(영)
 
@@ -29,6 +31,8 @@ public abstract class Lecture {
     private int credit; //학점
     private int capacity; //수강정원
     private int currentCount; //현재인원
+//    private String major; //학과(전공)
+
 
     //==비즈니스 로직==/
 

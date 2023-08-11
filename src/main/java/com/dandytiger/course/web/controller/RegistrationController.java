@@ -50,6 +50,7 @@ public class RegistrationController {
 
         List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
         model.addAttribute("lectureStudents",lectureStudents);
+
         return "courseRegistration/mainForm";
     }
     @GetMapping("/registration/test")

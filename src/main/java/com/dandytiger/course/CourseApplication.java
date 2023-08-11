@@ -1,14 +1,14 @@
 package com.dandytiger.course;
 
-import com.dandytiger.course.domain.lecture.GeneralElective;
 import com.dandytiger.course.domain.lecture.Lecture;
-import com.dandytiger.course.domain.lecture.Major;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class CourseApplication {
@@ -19,7 +19,10 @@ public class CourseApplication {
 
     }
 
-
+    @Bean
+    JPAQueryFactory jpaQueryFactory(EntityManager em) {
+        return new JPAQueryFactory(em);
+    }
 
 
 }

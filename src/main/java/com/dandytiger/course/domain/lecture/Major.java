@@ -10,6 +10,5 @@ import lombok.Setter;
 @DiscriminatorValue("M")
 @Getter @Setter
 public class Major extends Lecture {
-
     private String major; //학과(전공)
 }

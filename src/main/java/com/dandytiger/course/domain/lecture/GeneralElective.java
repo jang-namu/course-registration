@@ -7,5 +7,4 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("GE")
 public class GeneralElective extends Lecture {
 
-
 }

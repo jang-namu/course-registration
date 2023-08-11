@@ -1,7 +1,6 @@
 package com.dandytiger.course.domain.lecturestudent;
 
 import com.dandytiger.course.domain.lecture.Lecture;
-import com.dandytiger.course.domain.lecture.Major;
 import com.dandytiger.course.domain.student.Student;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -52,7 +51,7 @@ public class LectureStudent {
         lectureStudent.setLecture(lecture);
         lectureStudent.setRegistrationTime(LocalDateTime.now());
 
-        if (lecture.getCapacity() - lecture.getCurrentCount() == 0) {
+        if (lecture.getCapacity() - lecture.getCurrentCount() <= 0) {
             log.info("createLectureStudent start after WAIT ");
             lectureStudent.setStatus(RegistrationStatus.WAIT);
         } else {

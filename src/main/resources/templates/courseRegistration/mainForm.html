@@ -70,7 +70,11 @@
       margin-right:10px;
       text-align: center;
       color:#fff;
-      margin-bottom: 20px;
+      padding: 10px 10px;
+    }
+
+    #search {
+      font-size: 13px;
     }
 
     #list_head {
@@ -89,7 +93,7 @@
       margin-left: 5px;
       border-collapse : collapse;
       margin-bottom: 20px;
-
+      margin-top: 20px;
     }
     .tr th{
       background-color: #dadada;
@@ -148,9 +152,19 @@
 
 
 <div id="btn_bar">
-  <button onclick="location.href='/test';" class="btn">    전공과목       </button>
-  <button onclick="location.href='/test';" class="btn">    교양과목       </button>
-  <button onclick="location.href='/test';" class="btn">    과목명(코드) 조회       </button>
+  <button onclick="location.href='/major';" class="btn">    전공과목       </button>
+  <button onclick="location.href='/generalElective';" class="btn">    교양과목       </button>
+  </button>
+  <form action="/searchLectureName" method="get" class="btn">
+    과목명 조회
+    <input type="text" name="LectureName">
+    <input type="submit" value="검색">
+  </form>
+  <form action="/searchCode" method="get" class="btn">
+    과목코드 조회
+    <input type="text" name="code">
+    <input type="submit" value="검색">
+  </form>
   <button onclick="location.href='/test';" class="btn">    공지사항       </button>
 
 <!--  <button onclick="location.href='/test';" class="btn">    타학과과목       </button>-->
@@ -161,8 +175,9 @@
     <table border="1" id="sub_list">
 
       <tr class="tr">
+        <th>학과</th>
         <th>이수구분</th>
-        <th>학수번호</th> <!-- 일단 DB id 값으로 대체-->
+        <th>학수번호</th> <!-- 과목 코드로 변경 !!-->
         <th>교과목명</th>
         <th>학점</th>
         <th>교수</th>
@@ -172,8 +187,9 @@
     </tr>
 
     <tr th:each="lecture : ${lectures}">
-        <td th:text="${lecture.getType()}"></td>
-        <td th:text="${lecture.getId()}"></td>
+      <td th:text="${lecture.getMajor()}"></td>
+      <td th:text="${lecture.getType()}"></td>
+        <td th:text="${lecture.getCode()}"></td>
         <td th:text="${lecture.getKorName()}"></td>
         <td th:text="${lecture.getCredit()}"></td>
         <td th:text="${lecture.getProfessorName()}"></td>
