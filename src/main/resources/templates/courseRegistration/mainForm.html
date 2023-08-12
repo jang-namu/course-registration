@@ -222,7 +222,7 @@
     </tr>
     <tr th:each="rl : ${lectureStudents}">
       <td th:text="${rl.getLecture().getType()}"></td>
-      <td th:text="${rl.getLecture().getId()}"></td>
+      <td th:text="${rl.getLecture().getCode()}"></td>
       <td th:text="${rl.getLecture().getKorName()}"></td>
       <td th:text="${rl.getLecture().getCredit()}"></td>
       <td th:text="${rl.getLecture().getProfessorName()}"></td>

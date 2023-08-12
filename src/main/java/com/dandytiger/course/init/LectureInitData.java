@@ -44,12 +44,12 @@ public class LectureInitData {
         private final StudentServiceImpl studentService;
         private final LectureStudentService lectureStudentService;
 
-        public void initLecture() {
+        public void initLecture(){
             try{
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/kimnamki/Desktop/강의계획서(전).xlsx";
+                String excelFilePath = "/Users/kimnamki/Desktop/전학과강의계획서(전)_원본_수정.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -73,6 +73,8 @@ public class LectureInitData {
                     Row row = rowIterator.next();
 
                     Major lecture = new Major();
+
+
 
                     lecture.setMajor(row.getCell(2).getStringCellValue()); //학과
 
@@ -99,7 +101,8 @@ public class LectureInitData {
 //                lecture.setClassroom(row.getCell());
 //                lecture.setTime(); 강의 시간 넣기 매우 애매 . .
 
-                    lectureService.saveLecture(lecture);
+                    Lecture realLecture = lecture;
+                    lectureService.saveLecture(realLecture);
                 }
                 // 리소스 정리
                 workbook.close();
