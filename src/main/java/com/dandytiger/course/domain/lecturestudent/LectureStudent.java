@@ -2,6 +2,7 @@ package com.dandytiger.course.domain.lecturestudent;
 
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.student.Student;
+import com.dandytiger.course.exception.ExceedCreditException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -43,7 +44,8 @@ public class LectureStudent {
     //==생성 메서드==//
     public static LectureStudent createLectureStudent(Student student, Lecture lecture) {
 
-        log.info("createLectureStudent start ");
+
+        log.info("createLectureStudent CurrentCredit = {}",student.getCurrentCredit());
 
         LectureStudent lectureStudent = new LectureStudent();
 
@@ -52,17 +54,13 @@ public class LectureStudent {
         lectureStudent.setRegistrationTime(LocalDateTime.now());
 
         if (lecture.getCapacity() - lecture.getCurrentCount() <= 0) {
-            log.info("createLectureStudent start after WAIT ");
             lectureStudent.setStatus(RegistrationStatus.WAIT);
         } else {
-            log.info("createLectureStudent start after COMPLETE ");
             lectureStudent.setStatus(RegistrationStatus.COMPLETE);
             // lecture.addCurrentCount(); 말고 아래에 해야할듯?
         }
 
         lecture.addCurrentCount();
-
-        log.info("createLectureStudent end ");
 
         return lectureStudent;
     }

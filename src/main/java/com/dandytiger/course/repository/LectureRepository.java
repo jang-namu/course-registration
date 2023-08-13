@@ -46,14 +46,16 @@ public class LectureRepository {
     //교양과목 검색
     public List<Lecture> findGELecture() {
         return query.selectFrom(l)
-                .where(l.type.contains("교양"))
+                .where(l.lectureType.contains("교양"))
+//                .where(l.type.contains("교양"))
                 .fetch();
     }
 
     //전공과목 검색(지금은 강의가 컴공밖에 없어서 이렇게 만듬
     public List<Lecture> findMLecture() {
         return query.selectFrom(l)
-                .where(l.type.contains("전공"))
+                .where(l.lectureType.contains("전공"))
+//                .where(l.type.contains("전공"))
                 .fetch();
     }
     //==동적쿼리 끝==//

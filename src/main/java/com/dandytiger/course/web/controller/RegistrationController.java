@@ -4,8 +4,10 @@ import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.domain.student.Student;
 import com.dandytiger.course.repository.LectureStudentSearch;
+import com.dandytiger.course.repository.StudentRepository;
 import com.dandytiger.course.service.LectureService;
 import com.dandytiger.course.service.LectureStudentService;
+import com.dandytiger.course.service.StudentServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class RegistrationController {
 
     private final LectureService lectureService;
     private final LectureStudentService lectureStudentService;
+    private final StudentRepository studentRepository;
 
 
     @GetMapping("/registration")
@@ -44,6 +48,7 @@ public class RegistrationController {
 
         model.addAttribute("name", student.getName());
         model.addAttribute("major", student.getMajor());
+        model.addAttribute("currentCredit",student.showCurrentCredit());
 
         List<Lecture> lectures = lectureService.findLectures();
         model.addAttribute("lectures",lectures);
@@ -53,10 +58,6 @@ public class RegistrationController {
 
         return "courseRegistration/mainForm";
     }
-    @GetMapping("/registration/test")
-    public String test() {
-        return "test";
-    }
 
     // 지금은 회원가입이 없어서 일단 세션은 제외
     @PostMapping("/registration/{id}")
@@ -65,7 +66,10 @@ public class RegistrationController {
         HttpSession session = request.getSession(false);
 
         Student student = (Student) session.getAttribute("student");
+
         lectureStudentService.apply(student.getId(), id);
+
+        log.info("apply after Current Credit = {} ",student.getCurrentCredit());
         return "redirect:/";
     }
 

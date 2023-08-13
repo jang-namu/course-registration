@@ -133,20 +133,22 @@
       margin-bottom: 20px;
       table-layout: fixed;
     }
-
   </style>
 </head>
 <body>
 
 <div id="head_bar">
   <div class="one">2023년도 2학기</div>
-  <div class="ttt"> 교육과목 </div>
 
+  <div class="ttt"> 교육과목 </div>
   <div class="ttt_1" th:text="${major}"></div>
 
-  <!--  <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>-- 이것 처럼 동적으로 세션에서 꺼내서 과져와야함-->
   <div class="ttt"> 성명 </div>
   <div class="ttt_1" th:text="${name}"></div>
+
+  <div class="ttt"> 현재 학점 </div>
+  <div class="ttt_1" th:text="${currentCredit}"></div>
+
   <button th:onclick="|location.href='@{/logout}'|">로그아웃</button>
 </div>
 
@@ -175,7 +177,7 @@
     <table border="1" id="sub_list">
 
       <tr class="tr">
-        <th>학과</th>
+        <th >학과</th>
         <th>이수구분</th>
         <th>학수번호</th> <!-- 과목 코드로 변경 !!-->
         <th>교과목명</th>
@@ -187,8 +189,10 @@
     </tr>
 
     <tr th:each="lecture : ${lectures}">
-      <td th:text="${lecture.getMajor()}"></td>
-      <td th:text="${lecture.getType()}"></td>
+<!--      전공이면 학과 th 생기고 그렇지 않으면 학과 th 자체가 없어짐-->
+      <td th:text="${lecture.getMajor()}" th:if = "${lecture.getLectureType().equals('전공')}"></td>
+      <td th:text="${lecture.getLectureType()}" th:if = "${lecture.getLectureType().equals('교양')}" ></td>
+      <td th:text="${lecture.getLectureDivision()}"></td>
         <td th:text="${lecture.getCode()}"></td>
         <td th:text="${lecture.getKorName()}"></td>
         <td th:text="${lecture.getCredit()}"></td>
@@ -221,7 +225,7 @@
       <th>신청</th>
     </tr>
     <tr th:each="rl : ${lectureStudents}">
-      <td th:text="${rl.getLecture().getType()}"></td>
+      <td th:text="${rl.getLecture().getLectureType()}"></td>
       <td th:text="${rl.getLecture().getCode()}"></td>
       <td th:text="${rl.getLecture().getKorName()}"></td>
       <td th:text="${rl.getLecture().getCredit()}"></td>

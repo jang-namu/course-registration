@@ -3,10 +3,14 @@ package com.dandytiger.course.service;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.domain.student.Student;
+import com.dandytiger.course.exception.ExceedCreditException;
 import com.dandytiger.course.repository.LectureRepository;
 import com.dandytiger.course.repository.LectureStudentRepository;
 import com.dandytiger.course.repository.LectureStudentSearch;
 import com.dandytiger.course.repository.StudentRepository;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,8 +35,6 @@ public class LectureStudentService {
     @Transactional
     public Long apply(Long studentId, Long lectureId) {
 
-        log.info("apply 시작");
-
         //엔티티 조회
         Student student = (Student) studentRepository.findById(studentId)
                 .orElseThrow(
@@ -40,17 +42,16 @@ public class LectureStudentService {
                 );
         Lecture lecture = lectureRepository.findOne(lectureId);
 
-        log.info("apply 시작 후 학생 , 과목 조회");
+        student.addCurrentCredit(lecture.getCredit());
+
 
         //LectureStudent 생성
         LectureStudent lectureStudent = LectureStudent.createLectureStudent(student, lecture);
 
-        log.info("apply 시작 후 학생 , 과목 조회 후 createLectureStudent");
-
         //저장
         lectureStudentRepository.save(lectureStudent);
 
-        log.info("apply 시작 후 학생 , 과목 조회 후 createLectureStudent 후에 저장 완료");
+        log.info("repository save after current credit = {}",student.getCurrentCredit());
 
         return lectureStudent.getId();
     }

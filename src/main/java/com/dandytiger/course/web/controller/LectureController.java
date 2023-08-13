@@ -36,6 +36,7 @@ public class LectureController {
 
         model.addAttribute("name", student.getName());
         model.addAttribute("major", student.getMajor());
+        model.addAttribute("currentCredit",student.getCurrentCredit());
 
         List<Lecture> lectures = lectureService.findMLecture();
 
@@ -56,6 +57,7 @@ public class LectureController {
 
         model.addAttribute("name", student.getName());
         model.addAttribute("major", student.getMajor());
+        model.addAttribute("currentCredit",student.getCurrentCredit());
 
         List<Lecture> lectures = lectureService.findGELecture();
 
@@ -75,6 +77,7 @@ public class LectureController {
 
         model.addAttribute("name", student.getName());
         model.addAttribute("major", student.getMajor());
+        model.addAttribute("currentCredit",student.getCurrentCredit());
 
         String LectureName = httpServletRequest.getParameter("LectureName");
         List<Lecture> lectures = lectureService.findByLectureName(LectureName);
@@ -94,6 +97,8 @@ public class LectureController {
 
         model.addAttribute("name", student.getName());
         model.addAttribute("major", student.getMajor());
+        model.addAttribute("currentCredit",student.getCurrentCredit());
+
 
         String code = httpServletRequest.getParameter("code");
         List<Lecture> lectures = lectureService.findByCode(code);

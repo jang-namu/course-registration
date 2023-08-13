@@ -8,11 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.index.qual.SameLen;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="dtype")
 @Getter @Setter
 @Slf4j
-public abstract class Lecture {
+public class Lecture {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_id")
@@ -23,7 +21,8 @@ public abstract class Lecture {
     private String korName; //과목명(한)
     private String engName; //과목명(영)
 
-    private String type; //이수구분
+//    private String type; //이수구분 값 타입으로 일단 수정
+
     private String professorName; //교수명
     private int time; //강의 시간
     private String grade; //학년
@@ -31,8 +30,10 @@ public abstract class Lecture {
     private int credit; //학점
     private int capacity; //수강정원
     private int currentCount; //현재인원
-//    private String major; //학과(전공)
 
+    private String lectureType; // 전공인가 ? 교양인가 ?
+    private String lectureDivision; // 이수 구분 (기초교양 , 전공기초 , 핵심교양 ...)
+    private String major;
 
     //==비즈니스 로직==/
 
@@ -47,7 +48,6 @@ public abstract class Lecture {
             throw new NotEnoughCapacityException("no more capacity");
         }
         this.currentCount += 1;
-
     }
 
     /**
