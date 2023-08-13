@@ -53,7 +53,6 @@ public class LectureInitData {
      *  함수설명 : 시간표 데이터를 Index 정보로 가지고 있는 Map 초기화
      * */
     private void initPeriodMap(){
-        int firstClassIndex = 0; // Set your actual value here
         periodMap.put("0", new Triple<>(firstClassIndex + 2, firstClassIndex + 5, "08:00 ~ 08:50"));
         periodMap.put("1", new Triple<>(firstClassIndex + 6, firstClassIndex + 9, "09:00 ~ 09:50"));
         periodMap.put("2", new Triple<>(firstClassIndex + 10, firstClassIndex + 13, "10:00 ~ 10:50"));
