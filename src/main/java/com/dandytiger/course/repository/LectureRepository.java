@@ -52,10 +52,9 @@ public class LectureRepository {
     }
 
     //전공과목 검색(지금은 강의가 컴공밖에 없어서 이렇게 만듬
-    public List<Lecture> findMLecture() {
+    public List<Lecture> findMLecture(String major) {
         return query.selectFrom(l)
-                .where(l.lectureType.contains("전공"))
-//                .where(l.type.contains("전공"))
+                .where(l.major.contains(major))
                 .fetch();
     }
     //==동적쿼리 끝==//

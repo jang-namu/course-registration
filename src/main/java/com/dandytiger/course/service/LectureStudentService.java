@@ -42,6 +42,7 @@ public class LectureStudentService {
                 );
         Lecture lecture = lectureRepository.findOne(lectureId);
 
+        // 학생 신청한 현재 학점 증가
         student.addCurrentCredit(lecture.getCredit());
 
 

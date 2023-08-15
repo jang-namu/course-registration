@@ -29,7 +29,7 @@ public class StudentInitData {
             student.setLoginId("201901554");
             student.setGrade(3);
             student.setPassword("1234");
-            student.setMajor("컴퓨터공학과");
+            student.setMajor("컴퓨터공학부");
             student.setCurrentCredit(0);
             studentService.testJoin(student);
         }

@@ -1,7 +1,6 @@
 package com.dandytiger.course.service;
 
 import com.dandytiger.course.domain.student.Student;
-import com.dandytiger.course.domain.student.dto.StudentResponseDto;
 import com.dandytiger.course.repository.StudentRepository;
 import com.dandytiger.course.web.form.JoinForm;
 import com.dandytiger.course.web.form.StudentForm;
@@ -57,6 +56,10 @@ public class StudentServiceImpl {
         studentRepository.save(savedStudent);
 
         return true;
+    }
+
+    public Optional<Student> findById(Long studentId){
+        return studentRepository.findById(studentId);
     }
 
     // 테스트용 Join ..

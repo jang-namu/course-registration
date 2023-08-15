@@ -26,7 +26,7 @@ public class RegistrationController {
 
     private final LectureService lectureService;
     private final LectureStudentService lectureStudentService;
-    private final StudentRepository studentRepository;
+    private final StudentServiceImpl studentService;
 
 
     @GetMapping("/registration")
@@ -46,9 +46,10 @@ public class RegistrationController {
             return "redirect:/";
         }
 
-        model.addAttribute("name", student.getName());
-        model.addAttribute("major", student.getMajor());
-        model.addAttribute("currentCredit",student.showCurrentCredit());
+        Student findStudent = studentService.findById(student.getId()).get();
+        model.addAttribute("name", findStudent.getName());
+        model.addAttribute("major", findStudent.getMajor());
+        model.addAttribute("currentCredit", findStudent.getCurrentCredit());
 
         List<Lecture> lectures = lectureService.findLectures();
         model.addAttribute("lectures",lectures);

@@ -34,10 +34,6 @@ public class Student {
 
     private int currentCredit;
 
-    public int showCurrentCredit(){
-        return this.currentCredit;
-    }
-
     public void addCurrentCredit(int lectureCredit) {
         int restCapacity = this.currentCredit + lectureCredit;
         if (restCapacity >= 22) {

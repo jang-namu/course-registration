@@ -36,8 +36,8 @@ public class LectureService {
         return lectureRepository.findGELecture();
     }
 
-    public List<Lecture> findMLecture() {
-        return lectureRepository.findMLecture();
+    public List<Lecture> findMLecture(String major) {
+        return lectureRepository.findMLecture(major);
     }
 
     public Lecture findOne(Long lectureId) {

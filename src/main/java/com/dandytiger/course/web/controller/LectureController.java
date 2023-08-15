@@ -38,7 +38,7 @@ public class LectureController {
         model.addAttribute("major", student.getMajor());
         model.addAttribute("currentCredit",student.getCurrentCredit());
 
-        List<Lecture> lectures = lectureService.findMLecture();
+        List<Lecture> lectures = lectureService.findMLecture(student.getMajor());
 
         model.addAttribute("lectures", lectures);
 

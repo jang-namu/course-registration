@@ -1,5 +1,6 @@
 package com.dandytiger.course.exception.advice;
 
+import com.dandytiger.course.exception.ApplySameLectureException;
 import com.dandytiger.course.exception.ExceedCreditException;
 import com.dandytiger.course.exception.NotEnoughCapacityException;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,10 @@ public class ExceptionAdvice {
     @ExceptionHandler(ExceedCreditException.class)
         public ModelAndView exceedCreditException(ExceedCreditException e){
         return new ModelAndView("error/exceedCredit");
-
-        }
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ApplySameLectureException.class)
+    public ModelAndView exceedCreditException(ApplySameLectureException e){
+        return new ModelAndView("error/applySameLectureException");
+    }
 }

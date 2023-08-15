@@ -2,6 +2,7 @@ package com.dandytiger.course.domain.lecturestudent;
 
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.student.Student;
+import com.dandytiger.course.exception.ApplySameLectureException;
 import com.dandytiger.course.exception.ExceedCreditException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -45,7 +47,15 @@ public class LectureStudent {
     public static LectureStudent createLectureStudent(Student student, Lecture lecture) {
 
 
-        log.info("createLectureStudent CurrentCredit = {}",student.getCurrentCredit());
+        // 이미 신청한 과목시 예외 발생
+        List<LectureStudent> registrationLectures = student.getRegistrationLectures();
+        for (LectureStudent rl : registrationLectures) {
+            String lectureName = rl.getLecture().getKorName();
+            if (lecture.getKorName()==lectureName){
+                throw new ApplySameLectureException("같은 과목 신청");
+            }
+        }
+
 
         LectureStudent lectureStudent = new LectureStudent();
 

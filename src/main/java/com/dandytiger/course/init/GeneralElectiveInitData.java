@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 @Component
@@ -27,10 +25,11 @@ import java.util.List;
 public class GeneralElectiveInitData {
 
     private final initGeneralElectiveService initGeneralElectiveService;
+    private static LectureTimeDataParsingInit lectureTimeDataParsingInit;
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
+        initGeneralElectiveService.beforeTimeDataParsingApply();
         initGeneralElectiveService.initLecture();
-//        initService.initTest();
     }
 
     @Component
@@ -38,6 +37,11 @@ public class GeneralElectiveInitData {
     @RequiredArgsConstructor
     static class initGeneralElectiveService{
         private final LectureService lectureService;
+
+        public void beforeTimeDataParsingApply(){
+            lectureTimeDataParsingInit.initDayMap();
+            lectureTimeDataParsingInit.initPeriodMap();
+        }
 
         public void initLecture(){
             try{
@@ -84,6 +88,28 @@ public class GeneralElectiveInitData {
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
                     lecture.setGrade(row.getCell(3).getStringCellValue());
+
+                    String timeData = row.getCell(11).getStringCellValue();
+
+                    // Todo : Parsing 이전에 initDayMap 과 initPeriodMap 함수 호출해야지 정상적 Parsing 가능합니다.
+                    // Todo : 여기서 Data 를 Parsing 해주세요
+                    List<LectureTimeDataParsingInit.Triple<String, LectureTimeDataParsingInit.Triple<Integer, Integer, Integer>, String>> parsingData
+                            = lectureTimeDataParsingInit.parsingData(timeData);
+                    /** Parsing Data 특징
+                     * List<Triple<String,Triple<Int,Int,Int>,String>> 형태
+                     * List 의 하나의 원소는 Excel 파일 시간표 속성에서 [] 하나에 포함된 데이터 -> 강의의 하루 데이터
+                     * 하나의 원소중 String : 강의실, Triple<Int,Int,Int> : < 요일, 시작 인덱스, 종료 인덱스 > , String : 강의 시간 문자열
+                     * */
+
+                    // Todo : Excel 파일 Table 에 저장
+                    /** 알고리즘
+                     * 1. Excel 파일의 한 행을 읽음
+                     * 2. 학수번호 데이터를 변수로 가짐
+                     * 3. 행에서 시간표 속성을 Parsing 함
+                     * 4. 2에서 변수에 저장한 학수번호 데이터와 Parsing Data 를 Schedule Table 에 저장
+                     * 5. 나머지 데이터들을 Lecture Table 에 저장
+                     * 6. (1 ~ 5 까지의 과정)을 Excel 파일의 모든 행에 반복
+                     * */
 
                     /**
                      * 수강정원(15명)/현재인원(0)명으로 통일
