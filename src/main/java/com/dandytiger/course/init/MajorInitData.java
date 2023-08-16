@@ -45,7 +45,7 @@ public class MajorInitData {
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/supportkim/Desktop/종합시간표_전공.xlsx";
+                String excelFilePath = "/Users/kimnamki/Desktop/종합시간표_전공.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 

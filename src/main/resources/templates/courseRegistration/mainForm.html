@@ -141,13 +141,13 @@
   <div class="one">2023년도 2학기</div>
 
   <div class="ttt"> 교육과목 </div>
-  <div class="ttt_1" th:text="${major}"></div>
+  <div class="ttt_1" th:text="${student.getMajor()}"></div>
 
   <div class="ttt"> 성명 </div>
-  <div class="ttt_1" th:text="${name}"></div>
+  <div class="ttt_1" th:text="${student.getName()}"></div>
 
   <div class="ttt"> 현재 학점 </div>
-  <div class="ttt_1" th:text="${currentCredit}"></div>
+  <div class="ttt_1" th:text="${student.getCurrentCredit()}"></div>
 
   <button th:onclick="|location.href='@{/logout}'|">로그아웃</button>
 </div>
@@ -179,7 +179,7 @@
       <tr class="tr">
         <th >학과</th>
         <th>이수구분</th>
-        <th>학수번호</th> <!-- 과목 코드로 변경 !!-->
+        <th>과목코드</th> <!-- 과목 코드로 변경 !!-->
         <th>교과목명</th>
         <th>학점</th>
         <th>교수</th>
@@ -223,14 +223,16 @@
       <th>학점</th>
       <th>교수</th>
       <th>신청</th>
+      <th>신청상태</th>
     </tr>
-    <tr th:each="rl : ${lectureStudents}">
+    <tr th:each="rl : ${lectureStudents}" th:if="${student.getId()} == ${rl.getStudent().getId()}">
       <td th:text="${rl.getLecture().getLectureType()}"></td>
       <td th:text="${rl.getLecture().getCode()}"></td>
       <td th:text="${rl.getLecture().getKorName()}"></td>
       <td th:text="${rl.getLecture().getCredit()}"></td>
       <td th:text="${rl.getLecture().getProfessorName()}"></td>
-      <td><input type ="button" value="취소" class="delete_btn_1"/></td>
+      <td><a href="#" th:href="@{/registration/{id}/cancel(id=${rl.getId()})}">취소</a></td>
+      <td th:text="${rl.getStatus()}"></td>
     </tr>
   </table>
 </div>

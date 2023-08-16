@@ -34,9 +34,7 @@ public class LectureController {
         HttpSession session = httpServletRequest.getSession(false);
         Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("name", student.getName());
-        model.addAttribute("major", student.getMajor());
-        model.addAttribute("currentCredit",student.getCurrentCredit());
+        model.addAttribute("student", student);
 
         List<Lecture> lectures = lectureService.findMLecture(student.getMajor());
 
@@ -55,9 +53,7 @@ public class LectureController {
         HttpSession session = httpServletRequest.getSession(false);
         Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("name", student.getName());
-        model.addAttribute("major", student.getMajor());
-        model.addAttribute("currentCredit",student.getCurrentCredit());
+        model.addAttribute("student", student);
 
         List<Lecture> lectures = lectureService.findGELecture();
 
@@ -75,9 +71,7 @@ public class LectureController {
         HttpSession session = httpServletRequest.getSession(false);
         Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("name", student.getName());
-        model.addAttribute("major", student.getMajor());
-        model.addAttribute("currentCredit",student.getCurrentCredit());
+        model.addAttribute("student", student);
 
         String LectureName = httpServletRequest.getParameter("LectureName");
         List<Lecture> lectures = lectureService.findByLectureName(LectureName);
@@ -95,10 +89,7 @@ public class LectureController {
         HttpSession session = httpServletRequest.getSession(false);
         Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("name", student.getName());
-        model.addAttribute("major", student.getMajor());
-        model.addAttribute("currentCredit",student.getCurrentCredit());
-
+        model.addAttribute("student", student);
 
         String code = httpServletRequest.getParameter("code");
         List<Lecture> lectures = lectureService.findByCode(code);

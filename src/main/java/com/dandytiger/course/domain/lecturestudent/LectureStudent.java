@@ -83,6 +83,7 @@ public class LectureStudent {
     public void cancel() {
         this.setStatus(RegistrationStatus.CANCEL);
         getLecture().reduceCurrentCount();
+        getStudent().reduceCurrentCredit(getLecture().getCredit());
     }
 
 

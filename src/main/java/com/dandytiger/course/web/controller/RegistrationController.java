@@ -47,9 +47,7 @@ public class RegistrationController {
         }
 
         Student findStudent = studentService.findById(student.getId()).get();
-        model.addAttribute("name", findStudent.getName());
-        model.addAttribute("major", findStudent.getMajor());
-        model.addAttribute("currentCredit", findStudent.getCurrentCredit());
+        model.addAttribute("student", findStudent);
 
         List<Lecture> lectures = lectureService.findLectures();
         model.addAttribute("lectures",lectures);
@@ -80,11 +78,18 @@ public class RegistrationController {
         return "courseRegistration/beforeRequest";
     }
 
-//    @GetMapping("/registration/{id}/applis")
-//    public String applyList(@ModelAttribute("lectureStudentSearch") LectureStudentSearch lectureStudentSearch, Model model) {
-//        List<LectureStudent> applies = lectureStudentService.findLectureStudents();
-//        model.addAttribute("applies", applies);
-//
-//        return "/";
-//    }
+    //수강 취소(status => cancel로 변경, 사라지지는 X)
+    @PostMapping("/registration/{id}/cancel")
+    public String cancelCourseRegistration(@PathVariable("id") Long id, Model model) {
+
+        lectureStudentService.cancelApply(id);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/registration/{id}/cancel")
+    public String beforeCancelCourseRegistration(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("id", id);
+        return "courseRegistration/beforeCancel";
+    }
 }

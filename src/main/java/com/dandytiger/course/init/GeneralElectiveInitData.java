@@ -39,8 +39,8 @@ public class GeneralElectiveInitData {
         private final LectureService lectureService;
 
         public void beforeTimeDataParsingApply(){
-            lectureTimeDataParsingInit.initDayMap();
-            lectureTimeDataParsingInit.initPeriodMap();
+//            lectureTimeDataParsingInit.initDayMap();
+//            lectureTimeDataParsingInit.initPeriodMap();
         }
 
         public void initLecture(){
@@ -48,7 +48,7 @@ public class GeneralElectiveInitData {
 
                 log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/supportkim/Desktop/종합시간표_교양.xlsx";
+                String excelFilePath = "/Users/kimnamki/Desktop/종합시간표_교양.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -93,8 +93,8 @@ public class GeneralElectiveInitData {
 
                     // Todo : Parsing 이전에 initDayMap 과 initPeriodMap 함수 호출해야지 정상적 Parsing 가능합니다.
                     // Todo : 여기서 Data 를 Parsing 해주세요
-                    List<LectureTimeDataParsingInit.Triple<String, LectureTimeDataParsingInit.Triple<Integer, Integer, Integer>, String>> parsingData
-                            = lectureTimeDataParsingInit.parsingData(timeData);
+//                    List<LectureTimeDataParsingInit.Triple<String, LectureTimeDataParsingInit.Triple<Integer, Integer, Integer>, String>> parsingData
+//                            = lectureTimeDataParsingInit.parsingData(timeData);
                     /** Parsing Data 특징
                      * List<Triple<String,Triple<Int,Int,Int>,String>> 형태
                      * List 의 하나의 원소는 Excel 파일 시간표 속성에서 [] 하나에 포함된 데이터 -> 강의의 하루 데이터
