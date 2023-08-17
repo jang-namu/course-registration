@@ -88,7 +88,7 @@ public class LectureInitData {
      *      1. 매개변수로 종합시간표.xlsx 파일의 시간표 속성을 받는다.
      *      2. 강의실 []을 기준으로 1차로 분류한다.
      *      3. 같은 강의실일때, 강의 쉬는시간 () 로 2차 분류한다.
-     *      4. { {강의실,{강의 요일 인덱스,강의 시작시간 인덱스, 강의 마치는시간 인덱스}, 강의 시간 문자열} , { ... } } 형식으로 Return 된다.
+     *      4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
      * */
     private ArrayList<ArrayList<Object>> parsingData(String data) {
         String dayClass = "";
