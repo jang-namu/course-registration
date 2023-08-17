@@ -77,14 +77,5 @@ public class LectureStudent {
 
     //==비즈니스 로직==//
 
-    /**
-     * 수강 취소
-     */
-    public void cancel() {
-        this.setStatus(RegistrationStatus.CANCEL);
-        getLecture().reduceCurrentCount();
-        getStudent().reduceCurrentCredit(getLecture().getCredit());
-    }
-
 
 }

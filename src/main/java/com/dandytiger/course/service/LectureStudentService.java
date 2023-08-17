@@ -62,10 +62,9 @@ public class LectureStudentService {
      */
     @Transactional
     public void cancelApply(Long lectureStudentId) {
-        //엔티티 조회
         LectureStudent lectureStudent = lectureStudentRepository.findOne(lectureStudentId);
         //취소
-        lectureStudent.cancel();
+        lectureStudentRepository.delete(lectureStudent);
     }
 
 

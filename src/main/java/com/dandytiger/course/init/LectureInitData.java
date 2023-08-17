@@ -22,7 +22,12 @@
 //import java.util.Iterator;
 //import java.util.List;
 //
-//
+
+/**
+ * 이거는 일단 보류
+ * 삭제 가능성 있는 클래스
+ */
+
 //@Component
 //@RequiredArgsConstructor
 //@Slf4j

@@ -1,11 +1,14 @@
 package com.dandytiger.course.domain.lecture;
 
+import com.dandytiger.course.domain.schedule.Schedule;
 import com.dandytiger.course.exception.NotEnoughCapacityException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.index.qual.SameLen;
+
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -34,6 +37,9 @@ public class Lecture {
     private String lectureType; // 전공인가 ? 교양인가 ?
     private String lectureDivision; // 이수 구분 (기초교양 , 전공기초 , 핵심교양 ...)
     private String major;
+
+    @OneToOne
+    private Schedule schedule;
 
     //==비즈니스 로직==/
 

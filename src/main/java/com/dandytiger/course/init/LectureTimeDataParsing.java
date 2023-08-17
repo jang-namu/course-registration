@@ -2,12 +2,22 @@ package com.dandytiger.course.init;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class LectureTimeDataParsingInit {
+@Component
+public class LectureTimeDataParsing {
+
+    static class Triple<A, B, C> {
+        A first;
+        B second;
+        C third;
+
+        public Triple(A first, B second, C third) {
+            this.first = first;
+            this.second = second;
+            this.third = third;
+        }
+    }
     private int firstClassIndex = 0;
     private int firstDayIndex = 0;
     private Map<String, Triple<Integer, Integer, String>> periodMap = new HashMap<>();
@@ -32,7 +42,7 @@ public class LectureTimeDataParsingInit {
         periodMap.put("0", new Triple<>(firstClassIndex + 2, firstClassIndex + 5, "08:00 ~ 08:50"));
         periodMap.put("1", new Triple<>(firstClassIndex + 6, firstClassIndex + 9, "09:00 ~ 09:50"));
         periodMap.put("2", new Triple<>(firstClassIndex + 10, firstClassIndex + 13, "10:00 ~ 10:50"));
-        periodMap.put("3", new Triple<>(firstClassIndex + 14, firstClassIndex + 17, "11:00 ~ 11s:50")); // Check the typo "11s:50"
+        periodMap.put("3", new Triple<>(firstClassIndex + 14, firstClassIndex + 17, "11:00 ~ 11:50"));
         periodMap.put("4", new Triple<>(firstClassIndex + 18, firstClassIndex + 21, "12:00 ~ 12:50"));
         periodMap.put("5", new Triple<>(firstClassIndex + 22, firstClassIndex + 25, "13:00 ~ 13:50"));
         periodMap.put("6", new Triple<>(firstClassIndex + 26, firstClassIndex + 29, "14:00 ~ 14:50"));
@@ -56,28 +66,21 @@ public class LectureTimeDataParsingInit {
         periodMap.put("야4-5A", new Triple<>(firstClassIndex + 54, firstClassIndex + 58, "20:50 ~ 22:05"));
 
     }
-
     /** 함수명 : parsingData
      *  매개변수 : String
-     *  반환형 : List<Triple<String,Triple<Int,Int,Int>,String>>
+     *  반환형 : ArrayList<Object>
      *  함수 설명 :
      *      1. 매개변수로 종합시간표.xlsx 파일의 시간표 속성을 받는다.
      *      2. 강의실 []을 기준으로 1차로 분류한다.
      *      3. 같은 강의실일때, 강의 쉬는시간 () 로 2차 분류한다.
-     *      4. { {강의실,{강의 요일 인덱스,강의 시작시간 인덱스, 강의 마치는시간 인덱스}, 강의 시간 문자열} , { ... } } 형식으로 Return 된다.
+     *      4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
      * */
-    public List<Triple<String,Triple<Integer,Integer,Integer>,String>> parsingData(String data){
+    public ArrayList<ArrayList<Object>> parsingData(String data) {
         String dayClass = "";
-        List<String> dayClassList = new ArrayList<>();
-        List<Triple<String, Triple<Integer, Integer, Integer>, String>> dataList = new ArrayList<>();
+        List<String> one_classroom_lectures = new ArrayList<>();
+        ArrayList<ArrayList<Object>> parsing_data = new ArrayList<>();
 
         char[] dataChars = data.toCharArray();
-        StringBuilder temp = new StringBuilder();
-        int dayIndex = 0;
-        String classroom = "";
-        int startIndex = -1;
-        int endIndex = -1;
-        String time = "";
 
         for (char c : dataChars) {
             switch (c) {
@@ -85,7 +88,7 @@ public class LectureTimeDataParsingInit {
                     dayClass = "";
                     break;
                 case ']':
-                    dayClassList.add(dayClass);
+                    one_classroom_lectures.add(dayClass);
                     break;
                 default:
                     dayClass += c;
@@ -93,66 +96,24 @@ public class LectureTimeDataParsingInit {
             }
         }
 
-        for (String s : dayClassList) {
-            temp.setLength(0);
-            dayIndex = 0;
-            classroom = "";
-            startIndex = -1;
-            endIndex = -1;
-            time = "";
+        for (String ocl : one_classroom_lectures) {
+            String[] classroom_schedule = ocl.split(":");     // 강의실과 수업 데이터 분리
+            String[] one_day_schedule = classroom_schedule[1].split(","); // 요일에 따른 수업 분리
 
-            char[] sChars = s.toCharArray();
-            for (char c : sChars) {
-                switch (c) {
-                    case '월':
-                    case '화':
-                    case '수':
-                    case '목':
-                    case '금':
-                    case '토':
-                        dayIndex = dayMap.get(c);
-                        break;
-                    case ':':
-                        classroom = temp.toString();
-                        temp.setLength(0);
-                        break;
-                    case '(':
-                        temp.setLength(0);
-                        break;
-                    case ')':
-                        int sI = periodMap.get(temp.toString()).first;
-                        int eI = periodMap.get(temp.toString()).second;
-                        String timeStr = periodMap.get(temp.toString()).third;
-
-                        if (startIndex == -1) {
-                            startIndex = sI;
-                            time = timeStr;
-                        }
-                        time = time.substring(0, 8) + timeStr.substring(8);
-                        endIndex = eI;
-                        break;
-                    default:
-                        temp.append(c);
-                        break;
-                }
+            for (String schedule : one_day_schedule) {
+                schedule = schedule.trim();
+                int day = dayMap.get(schedule.charAt(0));
+                String time = schedule.substring(2,6);
+                Triple<Integer,Integer,String> time_data = periodMap.get(time);
+                parsing_data.add(new ArrayList<>(
+                        Arrays.asList(
+                                classroom_schedule[0],
+                                day,
+                                time_data.first,
+                                time_data.second,
+                                time_data.third)));
             }
-
-            dataList.add(new Triple(classroom, new Triple(dayIndex, startIndex, endIndex), time));
         }
-
-        return dataList;
-    }
-
-
-    static class Triple<A, B, C> {
-        A first;
-        B second;
-        C third;
-
-        public Triple(A first, B second, C third) {
-            this.first = first;
-            this.second = second;
-            this.third = third;
-        }
+        return parsing_data;
     }
 }

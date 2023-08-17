@@ -31,6 +31,7 @@ public class MajorInitData {
     private final initService initService;
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
+        initService.beforeTimeDataParsingApply();
         initService.initLecture();
     }
 
@@ -39,13 +40,17 @@ public class MajorInitData {
     @RequiredArgsConstructor
     static class initService{
         private final LectureService lectureService;
+        private final LectureTimeDataParsing lectureTimeDataParsing;
+        public void beforeTimeDataParsingApply(){
+            lectureTimeDataParsing.initPeriodMap();
+            lectureTimeDataParsing.initDayMap();
+        }
 
         public void initLecture(){
             try{
 
-                log.info("LectureInitData.init() 시작");
                 // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/kimnamki/Desktop/종합시간표_전공.xlsx";
+                String excelFilePath = "/Users/supportkim/Desktop/종합시간표_전공.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -87,13 +92,40 @@ public class MajorInitData {
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
                     lecture.setGrade(row.getCell(3).getStringCellValue());
 
+                    String timeData = row.getCell(11).getStringCellValue();
+
+
+                    // Todo : Parsing 이전에 initDayMap 과 initPeriodMap 함수 호출해야지 정상적 Parsing 가능합니다.
+                    // Todo : 여기서 Data 를 Parsing 해주세요
+
+//                    ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
+//                    for (ArrayList<Object> parsingDatum : parsingData) {
+//                        log.info("parsingData = {} ",parsingDatum.get(0));
+//                    }
+
+
+
+                    /** Parsing Data 특징
+                     * List<Triple<String,Triple<Int,Int,Int>,String>> 형태
+                     * List 의 하나의 원소는 Excel 파일 시간표 속성에서 [] 하나에 포함된 데이터 -> 강의의 하루 데이터
+                     * 하나의 원소중 String : 강의실, Triple<Int,Int,Int> : < 요일, 시작 인덱스, 종료 인덱스 > , String : 강의 시간 문자열
+                     * */
+
+                    // Todo : Excel 파일 Table 에 저장
+                    /** 알고리즘
+                     * 1. Excel 파일의 한 행을 읽음
+                     * 2. 학수번호 데이터를 변수로 가짐
+                     * 3. 행에서 시간표 속성을 Parsing 함
+                     * 4. 2에서 변수에 저장한 학수번호 데이터와 Parsing Data 를 Schedule Table 에 저장
+                     * 5. 나머지 데이터들을 Lecture Table 에 저장
+                     * 6. (1 ~ 5 까지의 과정)을 Excel 파일의 모든 행에 반복
+                     * */
+
                     /**
                      * 수강정원(15명)/현재인원(0)명으로 통일
                      */
                     lecture.setCapacity(15);
                     lecture.setCurrentCount(0);
-
-                    log.info("LectureInitData CurrentCount =  {}",lecture.getCurrentCount());
 
                     // 이거는 아마 split 써서 파싱 해가지고 해야할듯..? 더 좋은 방법이 있다면 그 방법으로
 //                lecture.setClassroom(row.getCell());

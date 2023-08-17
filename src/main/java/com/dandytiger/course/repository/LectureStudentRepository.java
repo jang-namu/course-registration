@@ -30,4 +30,8 @@ public class LectureStudentRepository {
         return em.createQuery("select ls from LectureStudent ls", LectureStudent.class)
                 .getResultList();
     }
+
+    public void delete(LectureStudent lectureStudent) {
+        em.remove(lectureStudent);
+    }
 }
