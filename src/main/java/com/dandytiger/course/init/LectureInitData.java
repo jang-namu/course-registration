@@ -118,20 +118,38 @@ public class LectureInitData {
             for (String schedule : one_day_schedule) {
                 schedule = schedule.trim();
                 int day = dayMap.get(schedule.charAt(0));
-                String time = schedule.substring(2,6);
-                Triple<Integer,Integer,String> time_data = periodMap.get(time);
+                String start = "",end = "",temp = "";
+
+                for (int i = 1; i<schedule.length();i++){
+                    switch (schedule.charAt(i)){
+                        case '(':
+                            temp = "";
+                            break;
+                        case ')':
+                            if (start.equals("")) start = temp;
+                            end = temp;
+                            break;
+                        default:
+                            temp += schedule.charAt(i);
+                            break;
+                    }
+                }
+
+                Triple<Integer,Integer,String> start_data = periodMap.get(start);
+                Triple<Integer,Integer,String> end_data = periodMap.get(end);
+                String time_str = start_data.third.substring(0,8) + end_data.third.substring(8);
+
                 parsing_data.add(new ArrayList<>(
                         Arrays.asList(
                                 classroom_schedule[0],
                                 day,
-                                time_data.first,
-                                time_data.second,
-                                time_data.third)));
+                                start_data.first,
+                                end_data.second,
+                                time_str)));
             }
         }
         return parsing_data;
     }
-
     private final initService initService;
     @PostConstruct
     public void init() {
