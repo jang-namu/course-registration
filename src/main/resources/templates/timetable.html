@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시간표</title>
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #wrapper #canvas {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            border: 2px solid #8c8989;
+        }
+        #wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+           /* overflow: hidden;*/
+            padding-bottom: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+
+    </header>
+
+    <main>
+        <div id="wrapper">
+            <canvas id = "canvas"></canvas>
+        </div>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <script>
+        const canvas = document.querySelector('.canvas');
+        const context = canvas.getContext('2d');
+
+    </script>
+</body>
+</html>
