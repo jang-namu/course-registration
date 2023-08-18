@@ -1,6 +1,8 @@
 package com.dandytiger.course.init;
 
 import com.dandytiger.course.domain.lecture.Lecture;
+import com.dandytiger.course.domain.schedule.Schedule;
+import com.dandytiger.course.domain.schedule.ScheduleMoreInformation;
 import com.dandytiger.course.service.LectureService;
 import com.dandytiger.course.service.LectureStudentService;
 import com.dandytiger.course.service.StudentServiceImpl;
@@ -98,6 +100,13 @@ public class MajorInitData {
 
                     ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
 //                    4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
+
+
+                    ScheduleMoreInformation information = new ScheduleMoreInformation();
+
+                    Schedule schedule = new Schedule(lecture,information,);
+
+
 
 
                     // 하나의 0 이 강의실

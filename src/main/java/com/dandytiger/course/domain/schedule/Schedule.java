@@ -2,17 +2,13 @@ package com.dandytiger.course.domain.schedule;
 
 import com.dandytiger.course.domain.lecture.Lecture;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter @Setter
+@Getter
 public class Schedule {
     @Id @GeneratedValue
     @Column(name = "schedule_id")
@@ -24,4 +20,14 @@ public class Schedule {
     @Embedded
     private ScheduleMoreInformation scheduleMoreInformation;
 
+    private String code;
+
+    public Schedule(Lecture lecture, ScheduleMoreInformation scheduleMoreInformation, String code) {
+        this.lecture = lecture;
+        this.scheduleMoreInformation = scheduleMoreInformation;
+        this.code = code;
+    }
+
+    public Schedule() {
+    }
 }
