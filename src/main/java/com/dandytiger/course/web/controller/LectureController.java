@@ -84,7 +84,7 @@ public class LectureController {
         return "courseRegistration/mainForm";
     }
 
-    @GetMapping("/searchLectureName")
+    @GetMapping("/lectureName")
     public String searchByLectureName2(Model model, String LectureName,HttpServletRequest httpServletRequest) {
 
         HttpSession session = httpServletRequest.getSession(false);
@@ -101,7 +101,7 @@ public class LectureController {
 
         return "courseRegistration/mainForm";
     }
-    @GetMapping("/searchCode")
+    @GetMapping("/code")
     public String searchCode(Model model, HttpServletRequest httpServletRequest, String code) {
 
         HttpSession session = httpServletRequest.getSession(false);

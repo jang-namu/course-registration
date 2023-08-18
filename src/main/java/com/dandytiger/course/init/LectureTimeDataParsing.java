@@ -102,8 +102,6 @@ public class LectureTimeDataParsing {
             for (String schedule : one_day_schedule) {
                 schedule = schedule.trim();
                 int day = dayMap.get(schedule.charAt(0));
-                log.info("day = {}",day);
-                log.info("강의실 = {}",classroom_schedule[0]);
                 String start = "",end = "",temp = "";
 
                 for (int i = 1; i<schedule.length();i++){

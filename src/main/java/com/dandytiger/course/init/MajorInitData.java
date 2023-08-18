@@ -1,11 +1,10 @@
 package com.dandytiger.course.init;
 
 import com.dandytiger.course.domain.lecture.Lecture;
-import com.dandytiger.course.domain.schedule.Schedule;
-import com.dandytiger.course.domain.schedule.ScheduleMoreInformation;
+import com.dandytiger.course.domain.timetable.TimeTable;
+import com.dandytiger.course.domain.timetable.TimeTableMoreInformation;
+import com.dandytiger.course.repository.TimeTableRepository;
 import com.dandytiger.course.service.LectureService;
-import com.dandytiger.course.service.LectureStudentService;
-import com.dandytiger.course.service.StudentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,6 +42,7 @@ public class MajorInitData {
     static class initService{
         private final LectureService lectureService;
         private final LectureTimeDataParsing lectureTimeDataParsing;
+        private final TimeTableRepository timeTableRepository;
         public void beforeTimeDataParsingApply(){
             lectureTimeDataParsing.initPeriodMap();
             lectureTimeDataParsing.initDayMap();
@@ -92,6 +92,12 @@ public class MajorInitData {
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
                     lecture.setGrade(row.getCell(3).getStringCellValue());
 
+                    /**
+                     * 수강정원(15명)/현재인원(0)명으로 통일
+                     */
+                    lecture.setCapacity(15);
+                    lecture.setCurrentCount(0);
+
                     String timeData = row.getCell(11).getStringCellValue();
 
 
@@ -101,19 +107,25 @@ public class MajorInitData {
                     ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
 //                    4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
 
+                    List<TimeTable> timeTables = new ArrayList<>();
 
-                    ScheduleMoreInformation information = new ScheduleMoreInformation();
+                    for (ArrayList<Object> data : parsingData) {
 
-                    Schedule schedule = new Schedule(lecture,information,);
+                        TimeTable timeTable = new TimeTable();
+                        TimeTableMoreInformation information = new TimeTableMoreInformation();
 
+                        String classroom = (String) data.get(0);
+                        int day = (int) data.get(1);
+                        int startTime = (int) data.get(2);
+                        int endTime = (int) data.get(3);
+                        String startTimeToEndTime = (String) data.get(4);
+                        information.initData(day,startTime,endTime,startTimeToEndTime,classroom);
 
-
-
-                    // 하나의 0 이 강의실
-
-
-
-
+                        timeTable.initTimeTable(lecture,information,lecture.getCode());
+                        timeTableRepository.save(timeTable);
+                        timeTables.add(timeTable);
+                    }
+                    lecture.setTimeTable(timeTables);
                     /** Parsing Data 특징
                      * List<Triple<String,Triple<Int,Int,Int>,String>> 형태
                      * List 의 하나의 원소는 Excel 파일 시간표 속성에서 [] 하나에 포함된 데이터 -> 강의의 하루 데이터
@@ -130,11 +142,6 @@ public class MajorInitData {
                      * 6. (1 ~ 5 까지의 과정)을 Excel 파일의 모든 행에 반복
                      * */
 
-                    /**
-                     * 수강정원(15명)/현재인원(0)명으로 통일
-                     */
-                    lecture.setCapacity(15);
-                    lecture.setCurrentCount(0);
 
                     // 이거는 아마 split 써서 파싱 해가지고 해야할듯..? 더 좋은 방법이 있다면 그 방법으로
 //                lecture.setClassroom(row.getCell());

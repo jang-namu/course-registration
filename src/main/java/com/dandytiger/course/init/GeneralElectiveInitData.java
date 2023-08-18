@@ -92,8 +92,6 @@ public class GeneralElectiveInitData {
                     lecture.setCapacity(15);
                     lecture.setCurrentCount(0);
 
-                    log.info("LectureInitData CurrentCount =  {}",lecture.getCurrentCount());
-
                     // 이거는 아마 split 써서 파싱 해가지고 해야할듯..? 더 좋은 방법이 있다면 그 방법으로
 //                lecture.setClassroom(row.getCell());
 //                lecture.setTime(); 강의 시간 넣기 매우 애매 . .

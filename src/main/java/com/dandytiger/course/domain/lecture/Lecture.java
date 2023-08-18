@@ -1,13 +1,12 @@
 package com.dandytiger.course.domain.lecture;
-
-import com.dandytiger.course.domain.schedule.Schedule;
+import com.dandytiger.course.domain.timetable.TimeTable;
 import com.dandytiger.course.exception.NotEnoughCapacityException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.index.qual.SameLen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,8 +37,8 @@ public class Lecture {
     private String lectureDivision; // 이수 구분 (기초교양 , 전공기초 , 핵심교양 ...)
     private String major;
 
-    @OneToOne
-    private Schedule schedule;
+    @OneToMany(mappedBy = "lecture")
+    private List<TimeTable> timeTable = new ArrayList<>();
 
     //==비즈니스 로직==/
 
