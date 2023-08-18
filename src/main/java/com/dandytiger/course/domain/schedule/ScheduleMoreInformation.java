@@ -1,10 +1,6 @@
 package com.dandytiger.course.domain.schedule;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Embeddable
 public class ScheduleMoreInformation {

@@ -48,9 +48,7 @@ public class MajorInitData {
 
         public void initLecture(){
             try{
-
-                // 엑셀 파일 경로 공통화 시키기 위해서 변경할 필요가 있음
-                String excelFilePath = "/Users/supportkim/Desktop/종합시간표_전공.xlsx";
+                String excelFilePath = "src/main/java/com/dandytiger/course/init/종합시간표_전공.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
 
@@ -98,10 +96,12 @@ public class MajorInitData {
                     // Todo : Parsing 이전에 initDayMap 과 initPeriodMap 함수 호출해야지 정상적 Parsing 가능합니다.
                     // Todo : 여기서 Data 를 Parsing 해주세요
 
-//                    ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
-//                    for (ArrayList<Object> parsingDatum : parsingData) {
-//                        log.info("parsingData = {} ",parsingDatum.get(0));
-//                    }
+                    ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
+//                    4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
+
+
+                    // 하나의 0 이 강의실
+
 
 
 
