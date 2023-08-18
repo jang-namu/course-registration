@@ -63,6 +63,7 @@ public class LectureStudentService {
     @Transactional
     public void cancelApply(Long lectureStudentId) {
         LectureStudent lectureStudent = lectureStudentRepository.findOne(lectureStudentId);
+        lectureStudent.cancel();
         //취소
         lectureStudentRepository.delete(lectureStudent);
     }

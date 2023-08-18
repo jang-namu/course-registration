@@ -65,7 +65,7 @@ public class LectureController {
         return "courseRegistration/mainForm";
     }
 
-    @GetMapping("/searchLectureName")
+//    @GetMapping("/searchLectureName")
     public String searchByLectureName(Model model, HttpServletRequest httpServletRequest) {
 
         HttpSession session = httpServletRequest.getSession(false);
@@ -83,15 +83,32 @@ public class LectureController {
 
         return "courseRegistration/mainForm";
     }
-    @GetMapping("/searchCode")
-    public String searchCode(Model model, HttpServletRequest httpServletRequest) {
+
+    @GetMapping("/searchLectureName")
+    public String searchByLectureName2(Model model, String LectureName,HttpServletRequest httpServletRequest) {
 
         HttpSession session = httpServletRequest.getSession(false);
         Student student = (Student) session.getAttribute("student");
 
         model.addAttribute("student", student);
 
-        String code = httpServletRequest.getParameter("code");
+        List<Lecture> lectures = lectureService.findByLectureName(LectureName);
+
+        model.addAttribute("lectures", lectures);
+
+        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+        model.addAttribute("lectureStudents",lectureStudents);
+
+        return "courseRegistration/mainForm";
+    }
+    @GetMapping("/searchCode")
+    public String searchCode(Model model, HttpServletRequest httpServletRequest, String code) {
+
+        HttpSession session = httpServletRequest.getSession(false);
+        Student student = (Student) session.getAttribute("student");
+
+        model.addAttribute("student", student);
+
         List<Lecture> lectures = lectureService.findByCode(code);
 
         model.addAttribute("lectures", lectures);
