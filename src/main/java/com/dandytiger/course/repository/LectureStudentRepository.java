@@ -31,6 +31,13 @@ public class LectureStudentRepository {
                 .getResultList();
     }
 
+    public void reduceAllWaitLectureStudents(Long id) {
+
+        em.createQuery("update LectureStudent ls set ls.waitingNumber = ls.waitingNumber - 1 where ls.waitingNumber > 0 and ls.lectureId = : id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
     public void delete(LectureStudent lectureStudent) {
         em.remove(lectureStudent);
     }

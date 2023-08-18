@@ -1,6 +1,7 @@
 package com.dandytiger.course.init;
 
 import com.dandytiger.course.domain.lecture.Lecture;
+import com.dandytiger.course.domain.schedule.Schedule;
 import com.dandytiger.course.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,32 +66,38 @@ public class GeneralElectiveInitData {
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();
 
-                    Lecture lecture = new Lecture();
 
                     // 전공중에서도 어떤 전공인가? , 교양중에서도 어떤 교양인가?
                     String division = row.getCell(4).getStringCellValue();
-                    lecture.setLectureType("교양");
-                    lecture.setLectureDivision(division);
+                    String lectureType = "교양";
 
-                    lecture.setCode(row.getCell(6).getStringCellValue()); //과목코드
 
-                    lecture.setKorName(row.getCell(7).getStringCellValue()); // 과목명
 
-                    lecture.setProfessorName(row.getCell(9).getStringCellValue()); // 교수명
+                    String code = row.getCell(6).getStringCellValue(); //과목코드
 
-                    lecture.setCredit((int)row.getCell(12).getNumericCellValue());
+                    String korName = row.getCell(7).getStringCellValue(); // 과목명
+
+                    String professorName = row.getCell(9).getStringCellValue(); // 교수명
+
+                    int credit = (int)row.getCell(12).getNumericCellValue();
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
-                    lecture.setGrade(row.getCell(3).getStringCellValue());
-
-
-
+                    String grade = row.getCell(3).getStringCellValue();
 
                     /**
                      * 수강정원(15명)/현재인원(0)명으로 통일
                      */
-                    lecture.setCapacity(15);
-                    lecture.setCurrentCount(0);
+                    int capacity = 15;
+                    int currentCount = 0;
+
+
+
+                    Lecture lecture = new Lecture(code, korName, professorName, grade, credit, capacity, currentCount, lectureType, division, "교양");
+
+
+
+
+
 
                     log.info("LectureInitData CurrentCount =  {}",lecture.getCurrentCount());
 

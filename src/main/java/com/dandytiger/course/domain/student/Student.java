@@ -2,7 +2,6 @@ package com.dandytiger.course.domain.student;
 
 import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.exception.ExceedCreditException;
-import com.dandytiger.course.exception.NotEnoughCapacityException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter // 이거 열면 안 되는데 test 떄문에 일단 넣어놓게요
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +31,15 @@ public class Student {
     private String password;
 
     private int currentCredit;
+
+    public Student(Integer grade, String name, String major, String loginId, String password, int currentCredit) {
+        this.grade = grade;
+        this.name = name;
+        this.major = major;
+        this.loginId = loginId;
+        this.password = password;
+        this.currentCredit = currentCredit;
+    }
 
     public void addCurrentCredit(int lectureCredit) {
         int restCapacity = this.currentCredit + lectureCredit;

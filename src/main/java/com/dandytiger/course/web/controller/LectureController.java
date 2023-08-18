@@ -32,9 +32,15 @@ public class LectureController {
     public String majorLecture(Model model, HttpServletRequest httpServletRequest) {
 
         HttpSession session = httpServletRequest.getSession(false);
-        Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("student", student);
+        Student student = (Student) session.getAttribute("student");
+        if (student == null) {
+            session.invalidate();
+            return "redirect:/";
+        }
+
+        Student findStudent = studentService.findById(student.getId()).get();
+        model.addAttribute("student", findStudent);
 
         List<Lecture> lectures = lectureService.findMLecture(student.getMajor());
 
@@ -51,9 +57,15 @@ public class LectureController {
     public String GELecture(Model model, HttpServletRequest httpServletRequest) {
 
         HttpSession session = httpServletRequest.getSession(false);
-        Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("student", student);
+        Student student = (Student) session.getAttribute("student");
+        if (student == null) {
+            session.invalidate();
+            return "redirect:/";
+        }
+
+        Student findStudent = studentService.findById(student.getId()).get();
+        model.addAttribute("student", findStudent);
 
         List<Lecture> lectures = lectureService.findGELecture();
 
@@ -65,32 +77,20 @@ public class LectureController {
         return "courseRegistration/mainForm";
     }
 
-//    @GetMapping("/searchLectureName")
-    public String searchByLectureName(Model model, HttpServletRequest httpServletRequest) {
+
+    @GetMapping("/lectureName")
+    public String searchByLectureName(Model model, String LectureName,HttpServletRequest httpServletRequest) {
 
         HttpSession session = httpServletRequest.getSession(false);
+
         Student student = (Student) session.getAttribute("student");
+        if (student == null) {
+            session.invalidate();
+            return "redirect:/";
+        }
 
-        model.addAttribute("student", student);
-
-        String LectureName = httpServletRequest.getParameter("LectureName");
-        List<Lecture> lectures = lectureService.findByLectureName(LectureName);
-
-        model.addAttribute("lectures", lectures);
-
-        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
-        model.addAttribute("lectureStudents",lectureStudents);
-
-        return "courseRegistration/mainForm";
-    }
-
-    @GetMapping("/searchLectureName")
-    public String searchByLectureName2(Model model, String LectureName,HttpServletRequest httpServletRequest) {
-
-        HttpSession session = httpServletRequest.getSession(false);
-        Student student = (Student) session.getAttribute("student");
-
-        model.addAttribute("student", student);
+        Student findStudent = studentService.findById(student.getId()).get();
+        model.addAttribute("student", findStudent);
 
         List<Lecture> lectures = lectureService.findByLectureName(LectureName);
 
@@ -101,13 +101,19 @@ public class LectureController {
 
         return "courseRegistration/mainForm";
     }
-    @GetMapping("/searchCode")
+    @GetMapping("/code")
     public String searchCode(Model model, HttpServletRequest httpServletRequest, String code) {
 
         HttpSession session = httpServletRequest.getSession(false);
-        Student student = (Student) session.getAttribute("student");
 
-        model.addAttribute("student", student);
+        Student student = (Student) session.getAttribute("student");
+        if (student == null) {
+            session.invalidate();
+            return "redirect:/";
+        }
+
+        Student findStudent = studentService.findById(student.getId()).get();
+        model.addAttribute("student", findStudent);
 
         List<Lecture> lectures = lectureService.findByCode(code);
 

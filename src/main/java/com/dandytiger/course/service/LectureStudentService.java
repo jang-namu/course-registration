@@ -43,12 +43,16 @@ public class LectureStudentService {
         Lecture lecture = lectureRepository.findOne(lectureId);
 
         // 학생 신청한 현재 학점 증가
-        student.addCurrentCredit(lecture.getCredit());
+
 
 
         //LectureStudent 생성
         LectureStudent lectureStudent = LectureStudent.createLectureStudent(student, lecture);
 
+        if (lecture.getCapacity() >= lecture.getCurrentCount()) {
+            student.addCurrentCredit(lecture.getCredit());
+
+        }
         //저장
         lectureStudentRepository.save(lectureStudent);
 
@@ -64,6 +68,7 @@ public class LectureStudentService {
     public void cancelApply(Long lectureStudentId) {
         LectureStudent lectureStudent = lectureStudentRepository.findOne(lectureStudentId);
         lectureStudent.cancel();
+        lectureStudentRepository.reduceAllWaitLectureStudents(lectureStudent.getLecture().getId());
         //취소
         lectureStudentRepository.delete(lectureStudent);
     }

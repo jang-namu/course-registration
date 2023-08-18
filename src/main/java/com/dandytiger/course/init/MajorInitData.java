@@ -73,26 +73,31 @@ public class MajorInitData {
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();
 
-                    Lecture lecture = new Lecture();
+
 
                     String major = row.getCell(2).getStringCellValue(); // 전공인지 교양인지 ?
                     // 전공중에서도 어떤 전공인가? , 교양중에서도 어떤 교양인가?
                     String division = row.getCell(4).getStringCellValue();
-                    lecture.setLectureDivision(division);
-                    lecture.setLectureType("전공");
-                    lecture.setMajor(major);
+                    String lectureType = "전공";
 
-                    lecture.setCode(row.getCell(6).getStringCellValue()); //과목코드
 
-                    lecture.setKorName(row.getCell(7).getStringCellValue()); // 과목명
-                    lecture.setProfessorName(row.getCell(9).getStringCellValue()); // 교수명
+                    String code = row.getCell(6).getStringCellValue(); //과목코드
 
-                    lecture.setCredit((int)row.getCell(12).getNumericCellValue());
+                    String korName = row.getCell(7).getStringCellValue(); // 과목명
+                    String professorName = row.getCell(9).getStringCellValue(); // 교수명
+
+                    int credit = (int)row.getCell(12).getNumericCellValue();
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
-                    lecture.setGrade(row.getCell(3).getStringCellValue());
+                    String grade = row.getCell(3).getStringCellValue();
 
                     String timeData = row.getCell(11).getStringCellValue();
+
+                    /**
+                     * 수강정원(15명)/현재인원(0)명으로 통일
+                     */
+                    int capacity = 15;
+                    int currentCount = 0;
 
 
                     // Todo : Parsing 이전에 initDayMap 과 initPeriodMap 함수 호출해야지 정상적 Parsing 가능합니다.
@@ -102,9 +107,9 @@ public class MajorInitData {
 //                    4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
 
 
-                    ScheduleMoreInformation information = new ScheduleMoreInformation();
-
-                    Schedule schedule = new Schedule(lecture,information,);
+//                    ScheduleMoreInformation information = new ScheduleMoreInformation();
+//
+//                    Schedule schedule = new Schedule(lecture,information,);
 
 
 
@@ -130,11 +135,11 @@ public class MajorInitData {
                      * 6. (1 ~ 5 까지의 과정)을 Excel 파일의 모든 행에 반복
                      * */
 
-                    /**
-                     * 수강정원(15명)/현재인원(0)명으로 통일
-                     */
-                    lecture.setCapacity(15);
-                    lecture.setCurrentCount(0);
+
+
+
+                    Lecture lecture = new Lecture(code, korName, professorName, grade, credit, capacity, currentCount, lectureType, division, major);
+
 
                     // 이거는 아마 split 써서 파싱 해가지고 해야할듯..? 더 좋은 방법이 있다면 그 방법으로
 //                lecture.setClassroom(row.getCell());
