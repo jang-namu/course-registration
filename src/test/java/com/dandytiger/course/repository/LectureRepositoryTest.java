@@ -1,7 +1,6 @@
 package com.dandytiger.course.repository;
 
 import com.dandytiger.course.domain.lecture.Lecture;
-import com.dandytiger.course.domain.lecture.Major;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

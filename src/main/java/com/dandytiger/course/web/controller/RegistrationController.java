@@ -61,7 +61,7 @@ public class RegistrationController {
     // 지금은 회원가입이 없어서 일단 세션은 제외
     @PostMapping("/registration/{id}")
     public String requestCourseRegistration(@PathVariable("id") Long id,
-                                            HttpServletRequest request,Model model) {
+                                            HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
         Student student = (Student) session.getAttribute("student");
@@ -78,9 +78,9 @@ public class RegistrationController {
         return "courseRegistration/beforeRequest";
     }
 
-    //수강 취소(status => cancel로 변경, 사라지지는 X)
+    //수강 취소
     @PostMapping("/registration/{id}/cancel")
-    public String cancelCourseRegistration(@PathVariable("id") Long id, Model model) {
+    public String cancelCourseRegistration(@PathVariable("id") Long id) {
 
         lectureStudentService.cancelApply(id);
 

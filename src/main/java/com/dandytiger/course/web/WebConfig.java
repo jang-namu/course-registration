@@ -11,6 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .order(1)
-                .addPathPatterns("/registration/*","/major","/generalElective","/lectureName","/code");
+                .addPathPatterns("/registration/*", "/major", "/generalElective", "/lectureName", "/code");
     }
 }

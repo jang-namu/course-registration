@@ -24,14 +24,11 @@ public class StudentInitData {
     static class initStudentService{
         private final StudentServiceImpl studentService;
         public void initStudent() {
-            Student student = new Student();
-            student.setName("김지원");
-            student.setLoginId("201901554");
-            student.setGrade(3);
-            student.setPassword("1234");
-            student.setMajor("컴퓨터공학부");
-            student.setCurrentCredit(0);
+            Student student = new Student(3, "김지원", "컴퓨터공학부", "201901554", "1234", 0);
+            Student student2 = new Student(3, "김남기", "컴퓨터공학부", "201901542", "1234", 0);
+
             studentService.testJoin(student);
+            studentService.testJoin(student2);
         }
     }
 }

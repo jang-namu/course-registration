@@ -1,16 +1,13 @@
 package com.dandytiger.course.domain.lecture;
 import com.dandytiger.course.domain.timetable.TimeTable;
-import com.dandytiger.course.exception.NotEnoughCapacityException;
+
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
-@Getter @Setter
+@Getter
 @Slf4j
 public class Lecture {
 
@@ -21,14 +18,11 @@ public class Lecture {
     private String code; //과목코드
 
     private String korName; //과목명(한)
-    private String engName; //과목명(영)
 
 //    private String type; //이수구분 값 타입으로 일단 수정
 
     private String professorName; //교수명
-    private int time; //강의 시간
     private String grade; //학년
-    private String classroom; //강의실
     private int credit; //학점
     private int capacity; //수강정원
     private int currentCount; //현재인원
@@ -37,8 +31,32 @@ public class Lecture {
     private String lectureDivision; // 이수 구분 (기초교양 , 전공기초 , 핵심교양 ...)
     private String major;
 
+    // 존나 거슬림
+    private int time;
+
     @OneToMany(mappedBy = "lecture")
     private List<TimeTable> timeTable = new ArrayList<>();
+
+    public Lecture(String code, String korName, String professorName, String grade, int credit,
+                   int capacity, int currentCount, String lectureType, String lectureDivision, String major) {
+        this.code = code;
+        this.korName = korName;
+        this.professorName = professorName;
+        this.grade = grade;
+        this.credit = credit;
+        this.capacity = capacity;
+        this.currentCount = currentCount;
+        this.lectureType = lectureType;
+        this.lectureDivision = lectureDivision;
+        this.major = major;
+    }
+
+    public void initTimeTable(List<TimeTable> timeTables){
+        this.timeTable = timeTables;
+    }
+
+    public Lecture() {
+    }
 
     //==비즈니스 로직==/
 
@@ -46,12 +64,8 @@ public class Lecture {
      * 현재인원 증가
      */
     public void addCurrentCount() {
-        int restCapacity = this.capacity - currentCount;
         log.info("addCurrentCount");
-        log.info("restCapacity = {}",restCapacity);
-        if (restCapacity <= 0) {
-            throw new NotEnoughCapacityException("no more capacity");
-        }
+
         this.currentCount += 1;
     }
 
