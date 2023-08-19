@@ -16,9 +16,7 @@ public class LectureStudentRepository {
     private final EntityManager em;
 
     public void save(LectureStudent lectureStudent) {
-        log.info("LectureStudentRepository before current Credit = {}",lectureStudent.getStudent().getCurrentCredit());
         em.persist(lectureStudent);
-        log.info("LectureStudentRepository after current Credit = {}",lectureStudent.getStudent().getCurrentCredit());
     }
 
     public LectureStudent findOne(Long id) {

@@ -43,6 +43,7 @@ public class MajorInitData {
         private final LectureService lectureService;
         private final LectureTimeDataParsing lectureTimeDataParsing;
         private final TimeTableRepository timeTableRepository;
+        private static int cnt = 0;
         public void beforeTimeDataParsingApply(){
             lectureTimeDataParsing.initPeriodMap();
             lectureTimeDataParsing.initDayMap();
@@ -106,6 +107,7 @@ public class MajorInitData {
                     ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
 //                    4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
 
+
                     List<TimeTable> timeTables = new ArrayList<>();
                     Lecture lecture = new Lecture(code, korName, professorName, grade, credit, capacity, currentCount, lectureType, division, major);
 
@@ -123,8 +125,13 @@ public class MajorInitData {
                         information.initData(day,startTime,endTime,startTimeToEndTime,classroom);
 
                         timeTable.initTimeTable(lecture,information,lecture.getCode());
+                        cnt+=1;
                         timeTableRepository.save(timeTable);
                         timeTables.add(timeTable);
+                    }
+                    for (TimeTable timeTable : timeTables) {
+                        log.info("timeTable.Lecture = {} ",timeTable.getLecture().getKorName());
+                        log.info("timeTable code = {} ",timeTable.getCode());
                     }
                     lecture.initTimeTable(timeTables);
                     /** Parsing Data 특징
@@ -145,6 +152,7 @@ public class MajorInitData {
 
                     lectureService.saveLecture(lecture);
                 }
+                log.info("전공 cnt = {} ",cnt);
                 // 리소스 정리
                 workbook.close();
                 fileInputStream.close();

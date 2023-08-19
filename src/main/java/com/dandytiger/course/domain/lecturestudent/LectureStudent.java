@@ -3,17 +3,14 @@ package com.dandytiger.course.domain.lecturestudent;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.student.Student;
 import com.dandytiger.course.exception.ApplySameLectureException;
-import com.dandytiger.course.exception.ExceedCreditException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 @Entity

@@ -43,6 +43,7 @@ public class GeneralElectiveInitData {
         private final LectureService lectureService;
         private final LectureTimeDataParsing lectureTimeDataParsing;
         private final TimeTableRepository timeTableRepository;
+        private static int cnt = 0;
         public void beforeTimeDataParsingApply(){
             lectureTimeDataParsing.initPeriodMap();
             lectureTimeDataParsing.initDayMap();
@@ -107,7 +108,6 @@ public class GeneralElectiveInitData {
                     String timeData = row.getCell(11).getStringCellValue();
 
                     ArrayList<ArrayList<Object>> parsingData = lectureTimeDataParsing.parsingData(timeData);
-                    log.info("timeData = {} ",timeData);
 //                    4. List 의 원소 { 0 : 강의실 , 1 : 요일, 2 : 시작 인덱스, 3 : 종료 인덱스, 4 : 강의 시간 String 형식 }
 
                     List<TimeTable> timeTables = new ArrayList<>();
@@ -122,12 +122,15 @@ public class GeneralElectiveInitData {
                         int startTime = (int) data.get(2);
                         int endTime = (int) data.get(3);
                         String startTimeToEndTime = (String) data.get(4);
-                        information.initData(day,startTime,endTime,startTimeToEndTime,classroom);
 
+                        information.initData(day,startTime,endTime,startTimeToEndTime,classroom);
                         timeTable.initTimeTable(lecture,information,lecture.getCode());
+                        cnt+=1;
                         timeTableRepository.save(timeTable);
+
                         timeTables.add(timeTable);
                     }
+
                     lecture.initTimeTable(timeTables);
                     lectureService.saveLecture(lecture);
                     /** Parsing Data 특징
@@ -148,6 +151,7 @@ public class GeneralElectiveInitData {
 
 
                 }
+                log.info("교양 cnt = {} ",cnt);
                 // 리소스 정리
                 workbook.close();
                 fileInputStream.close();

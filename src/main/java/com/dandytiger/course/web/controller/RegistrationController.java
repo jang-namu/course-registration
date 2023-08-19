@@ -68,7 +68,6 @@ public class RegistrationController {
 
         lectureStudentService.apply(student.getId(), id);
 
-        log.info("apply after Current Credit = {} ",student.getCurrentCredit());
         return "redirect:/";
     }
 

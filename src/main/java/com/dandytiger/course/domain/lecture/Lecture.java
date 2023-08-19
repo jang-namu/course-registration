@@ -1,4 +1,5 @@
 package com.dandytiger.course.domain.lecture;
+import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.domain.timetable.TimeTable;
 
 import jakarta.persistence.*;
@@ -64,8 +65,6 @@ public class Lecture {
      * 현재인원 증가
      */
     public void addCurrentCount() {
-        log.info("addCurrentCount");
-
         this.currentCount += 1;
     }
 

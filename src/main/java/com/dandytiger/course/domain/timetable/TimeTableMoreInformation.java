@@ -1,8 +1,10 @@
 package com.dandytiger.course.domain.timetable;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class TimeTableMoreInformation {
     // 요일
     private int day;

@@ -1,6 +1,7 @@
 package com.dandytiger.course.exception.advice;
 
 import com.dandytiger.course.exception.ApplySameLectureException;
+import com.dandytiger.course.exception.DuplicateTimeException;
 import com.dandytiger.course.exception.ExceedCreditException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,4 +23,11 @@ public class ExceptionAdvice {
     public ModelAndView exceedCreditException(ApplySameLectureException e){
         return new ModelAndView("error/applySameLectureException");
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateTimeException.class)
+    public ModelAndView duplicateTimeException(DuplicateTimeException e){
+        return new ModelAndView("error/duplicateTimeException");
+    }
+
 }
