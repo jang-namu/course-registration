@@ -40,6 +40,7 @@ public class DuplicateTimeCheck {
          * student_id 로 timeTable 을 가져올 수 있는 한방 쿼리..
          */
         for (List<TimeTable> old : olds) {
+            log.info("is_available_registration start2");
             for (TimeTable o : old) {
                 log.info("두번째 for 문 start");
                 for (TimeTable nr : new_registration) {

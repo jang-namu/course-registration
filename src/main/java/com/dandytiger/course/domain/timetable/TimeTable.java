@@ -16,7 +16,7 @@ public class TimeTable {
 
     private String code;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
@@ -25,7 +25,6 @@ public class TimeTable {
         this.scheduleMoreInformation = scheduleMoreInformation;
         this.code = code;
     }
-
     public TimeTable() {
     }
 }

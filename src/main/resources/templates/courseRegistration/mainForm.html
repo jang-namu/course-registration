@@ -188,19 +188,23 @@
         <th>신청</th>
     </tr>
 
-    <tr th:each="lecture : ${lectures}">
-<!--      전공이면 학과 th 생기고 그렇지 않으면 학과 th 자체가 없어짐-->
-      <td th:text="${lecture.getMajor()}" th:if = "${lecture.getLectureType().equals('전공')}"></td>
-      <td th:text="${lecture.getLectureType()}" th:if = "${lecture.getLectureType().equals('교양')}" ></td>
-      <td th:text="${lecture.getLectureDivision()}"></td>
+      tr th:each="tt : ${ttt}"
+        tr th:each t : ${tt}
+
+      <tr th:each="lecture : ${lectures}"  th:onclick="'sendPostRequest(\'/registration/' + ${lecture.getId()} + '\');'">
+
+<!--        <!—      전공이면 학과 th 생기고 그렇지 않으면 학과 th 자체가 없어짐—>-->
+        <td th:text="${lecture.getMajor()}" th:if = "${lecture.getLectureType().equals('전공')}"></td>
+        <td th:text="${lecture.getLectureType()}" th:if = "${lecture.getLectureType().equals('교양')}" ></td>
+        <td th:text="${lecture.getLectureDivision()}"></td>
         <td th:text="${lecture.getCode()}"></td>
         <td th:text="${lecture.getKorName()}"></td>
         <td th:text="${lecture.getCredit()}"></td>
         <td th:text="${lecture.getProfessorName()}"></td>
         <td th:text="${lecture.getCapacity()}"></td>
         <td th:text="${lecture.getCurrentCount()}"></td>
-      <td><a href="#" th:href="@{/registration/{id}(id=${lecture.getId()})}">신청하기</a></td>
-    </tr>
+        <td>신청</td>
+      </tr>
     </table>
   </div>
 </form>
@@ -238,4 +242,12 @@
 </div>
 </body>
 </html>
-
+<script>
+  function sendPostRequest(url) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>

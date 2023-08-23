@@ -50,13 +50,11 @@ public class LectureStudent {
 
     //==생성 메서드==//
     public static LectureStudent createLectureStudent(Student student, Lecture lecture) {
-
-
         // 이미 신청한 과목시 예외 발생
         List<LectureStudent> registrationLectures = student.getRegistrationLectures();
         for (LectureStudent rl : registrationLectures) {
             String lectureName = rl.getLecture().getKorName();
-            if (lecture.getKorName()==lectureName){
+            if (lecture.getKorName().equals(lectureName)){
                 throw new ApplySameLectureException("같은 과목 신청");
             }
         }
@@ -71,9 +69,6 @@ public class LectureStudent {
         } else {
             lectureStudent.updateLectureStudent(lecture, student, RegistrationStatus.COMPLETE, LocalDateTime.now());
         }
-
-
-
         return lectureStudent;
     }
 

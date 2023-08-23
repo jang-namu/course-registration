@@ -41,49 +41,58 @@ public class LectureStudentService {
     public Long apply(Long studentId, Long lectureId) {
 
         //엔티티 조회
+
+        // 1
         Student student = (Student) studentRepository.findById(studentId)
                 .orElseThrow(
                         NullPointerException::new
                 );
+
+
+
+        // 2
+
         Lecture lecture = lectureRepository.findOne(lectureId);
+
+
+        Lecture lecture2 = lectureRepository.findOneWithFetchJoin(lectureId);
+
 
         /**
          * 신청하려는 강의가 시간이 겹치는 확인하는 로직
          */
         List<List<TimeTable>> olds = new ArrayList<>();
-        List<LectureStudent> registrationLectures = student.getRegistrationLectures();
 
+
+        List<LectureStudent> registrationLectures = lectureStudentRepository.findRegistrationLectures(studentId);
+
+        // 3
+//        List<LectureStudent> registrationLectures = student.getRegistrationLectures();
+
+//
         for (LectureStudent rl : registrationLectures) {
+            // 수강신청한 과목이 있기 때문에 여기 있는 for 문이 돌면서 추가적인 쿼리가 나간다.
             Lecture l = rl.getLecture();
-            log.info("rl : registrationLectures");
-            log.info("lectureName = {} , 교수 = {}  ",lecture.getKorName(),lecture.getProfessorName());
             List<TimeTable> tt = l.getTimeTable();
-            log.info("l.getTimeTable = {} ",l.getTimeTable().size());
-            for (TimeTable t : tt) {
-                log.info("t : tt");
-                log.info("t = {} ",t.getCode());
-                log.info("t = {} ",t.getLecture());
-
-            }
-
             olds.add(tt);
         }
 
-
         if(!duplicateTimeCheck.is_available_registration(olds,lecture.getTimeTable())){
-            log.info("duplicateTimeCheck = 겹친다.");
             throw new DuplicateTimeException("강의 시간 겹치는 신청");
         }
-        log.info("duplicateTimeCheck = 안 겹친다.");
 
         //LectureStudent 생성
         LectureStudent lectureStudent = LectureStudent.createLectureStudent(student, lecture);
 
+
         if (lecture.getCapacity() >= lecture.getCurrentCount()) {
+            // 5(변경감지)
             student.addCurrentCredit(lecture.getCredit());
 
         }
         //저장
+
+        // 4
         lectureStudentRepository.save(lectureStudent);
 
         return lectureStudent.getId();
@@ -96,9 +105,11 @@ public class LectureStudentService {
     public void cancelApply(Long lectureStudentId) {
         LectureStudent lectureStudent = lectureStudentRepository.findOne(lectureStudentId);
         lectureStudent.cancel();
-        lectureStudentRepository.reduceAllWaitLectureStudents(lectureStudent.getLecture().getId());
+        lectureStudentRepository.reduceAllWaitLectureStudents(lectureStudent.getLecture());
         //취소
         lectureStudentRepository.delete(lectureStudent);
+
+
     }
 
 

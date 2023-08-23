@@ -2,6 +2,7 @@ package com.dandytiger.course.repository;
 
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecture.QLecture;
+import com.dandytiger.course.domain.timetable.QTimeTable;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class LectureRepository {
     private final EntityManager em;
     private final JPAQueryFactory query;
     QLecture l = QLecture.lecture;
+    QTimeTable t = QTimeTable.timeTable;
 
     public void save(Lecture lecture) {
         em.persist(lecture);
@@ -63,6 +65,14 @@ public class LectureRepository {
     public List<Lecture> findAll() {
         return em.createQuery("select l from Lecture l", Lecture.class)
                 .getResultList();
+    }
+
+    public Lecture findOneWithFetchJoin(Long id){
+        return query.selectFrom(l)
+                .rightJoin(l.timeTable,t).fetchJoin()
+                .where(l.id.eq(id))
+                .fetchOne();
+
     }
 
 }

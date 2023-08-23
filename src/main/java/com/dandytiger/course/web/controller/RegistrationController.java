@@ -3,8 +3,10 @@ package com.dandytiger.course.web.controller;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.domain.student.Student;
+import com.dandytiger.course.domain.timetable.TimeTable;
 import com.dandytiger.course.repository.LectureStudentSearch;
 import com.dandytiger.course.repository.StudentRepository;
+import com.dandytiger.course.repository.TimeTableRepository;
 import com.dandytiger.course.service.LectureService;
 import com.dandytiger.course.service.LectureStudentService;
 import com.dandytiger.course.service.StudentServiceImpl;
@@ -27,6 +29,7 @@ public class RegistrationController {
     private final LectureService lectureService;
     private final LectureStudentService lectureStudentService;
     private final StudentServiceImpl studentService;
+    private final TimeTableRepository timeTableRepository;
 
 
     @GetMapping("/registration")
@@ -90,5 +93,10 @@ public class RegistrationController {
     public String beforeCancelCourseRegistration(@PathVariable("id") Long id, Model model) {
         model.addAttribute("id", id);
         return "courseRegistration/beforeCancel";
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "timeTable";
     }
 }
