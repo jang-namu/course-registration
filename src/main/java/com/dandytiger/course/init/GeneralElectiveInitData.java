@@ -52,8 +52,6 @@ public class GeneralElectiveInitData {
         public void initLecture(){
             try{
 
-                log.info("LectureInitData.init() 시작");
-
                 String excelFilePath = "src/main/java/com/dandytiger/course/init/종합시간표_교양.xlsx";
 
                 FileInputStream fileInputStream = new FileInputStream(new File(excelFilePath));
@@ -64,14 +62,7 @@ public class GeneralElectiveInitData {
                 // 첫 번째 시트 선택
                 Sheet sheet = workbook.getSheetAt(0);
 
-                // 데이터 저장을 위한 리스트 생성 (메모리 상으로 확인 생성 , DB 에 잘 들어가면 없앨 예정)
-                List<Lecture> dataList = new ArrayList<>();
-
-                // 헤더 행은 건너뛰기 위해 반복자를 첫 번째 데이터 행으로 이동
                 Iterator<Row> rowIterator = sheet.iterator();
-//                if (rowIterator.hasNext()) {
-//                    rowIterator.next(); // 헤더 행은 건너뜁니다.
-//                }
 
 
                 // 각 행을 순회하며 데이터를 읽어서 객체로 변환하여 리스트에 추가
@@ -91,7 +82,7 @@ public class GeneralElectiveInitData {
 
                     String professorName = row.getCell(9).getStringCellValue(); // 교수명
 
-                    int credit = (int)row.getCell(12).getNumericCellValue();
+                    int credit = (int)row.getCell(12).getNumericCellValue(); // 학점
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
                     String grade = row.getCell(3).getStringCellValue();

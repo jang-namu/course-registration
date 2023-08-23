@@ -60,9 +60,6 @@ public class MajorInitData {
                 // 첫 번째 시트 선택
                 Sheet sheet = workbook.getSheetAt(0);
 
-                // 데이터 저장을 위한 리스트 생성 (메모리 상으로 확인 생성 , DB 에 잘 들어가면 없앨 예정)
-                List<Lecture> dataList = new ArrayList<>();
-
                 // 헤더 행은 건너뛰기 위해 반복자를 첫 번째 데이터 행으로 이동
                 Iterator<Row> rowIterator = sheet.iterator();
                 if (rowIterator.hasNext()) {
@@ -86,12 +83,12 @@ public class MajorInitData {
                     String korName = row.getCell(7).getStringCellValue(); // 과목명
                     String professorName = row.getCell(9).getStringCellValue(); // 교수명
 
-                    int credit = (int)row.getCell(12).getNumericCellValue();
+                    int credit = (int)row.getCell(12).getNumericCellValue(); // 학점
 
                     //   전학년 이라는 거 때문에 나눠서 작성 -> 0 을 전학생으로 하는 걸로 (제안)
                     String grade = row.getCell(3).getStringCellValue();
 
-                    String timeData = row.getCell(11).getStringCellValue();
+                    String timeData = row.getCell(11).getStringCellValue(); // 시간 파싱
 
                     /**
                      * 수강정원(15명)/현재인원(0)명으로 통일

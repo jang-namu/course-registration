@@ -17,11 +17,7 @@ public class Lecture {
     private Long id;
 
     private String code; //과목코드
-
     private String korName; //과목명(한)
-
-//    private String type; //이수구분 값 타입으로 일단 수정
-
     private String professorName; //교수명
     private String grade; //학년
     private int credit; //학점
@@ -30,9 +26,9 @@ public class Lecture {
 
     private String lectureType; // 전공인가 ? 교양인가 ?
     private String lectureDivision; // 이수 구분 (기초교양 , 전공기초 , 핵심교양 ...)
-    private String major;
+    private String major; // 전공학과
 
-    // 존나 거슬림
+    // time field 관련 오류 뜨는게 존재,,(일부 컴퓨터에서만)
     private int time;
 
     @OneToMany(mappedBy = "lecture")

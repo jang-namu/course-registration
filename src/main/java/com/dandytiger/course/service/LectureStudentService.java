@@ -48,15 +48,7 @@ public class LectureStudentService {
                         NullPointerException::new
                 );
 
-
-
-        // 2
-
-        Lecture lecture = lectureRepository.findOne(lectureId);
-
-
-        Lecture lecture2 = lectureRepository.findOneWithFetchJoin(lectureId);
-
+        Lecture lecture = lectureRepository.findOneWithFetchJoin(lectureId);
 
         /**
          * 신청하려는 강의가 시간이 겹치는 확인하는 로직
@@ -66,10 +58,7 @@ public class LectureStudentService {
 
         List<LectureStudent> registrationLectures = lectureStudentRepository.findRegistrationLectures(studentId);
 
-        // 3
-//        List<LectureStudent> registrationLectures = student.getRegistrationLectures();
 
-//
         for (LectureStudent rl : registrationLectures) {
             // 수강신청한 과목이 있기 때문에 여기 있는 for 문이 돌면서 추가적인 쿼리가 나간다.
             Lecture l = rl.getLecture();
