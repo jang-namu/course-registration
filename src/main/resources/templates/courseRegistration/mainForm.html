@@ -89,7 +89,7 @@
       float:left;
       text-align: center;
       height:400px;
-      width:1800px;
+      width:1300px;
       margin-left: 5px;
       border-collapse : collapse;
       margin-bottom: 20px;
@@ -127,7 +127,7 @@
       float:left;
       text-align: center;
       height:210px;
-      width:1800px;
+      width:1300px;
       margin-left: 5px;
       border-collapse : collapse;
       margin-bottom: 20px;
@@ -173,13 +173,13 @@
 <!--  <button onclick="location.href='/test';" class="btn">    연계학과과목       </button>-->
 </div>
 <form method="post">
-  <div id=list_head style="overflow-y: scroll; height: 700px">
+  <div id=list_head style="overflow-y: scroll; height: 700px; width: 1300px">
     <table border="1" id="sub_list">
 
       <tr class="tr">
         <th >학과</th>
         <th>이수구분</th>
-        <th>과목코드</th> <!-- 과목 코드로 변경 !!-->
+        <th>과목코드</th>
         <th>교과목명</th>
         <th>학점</th>
         <th>교수</th>
@@ -187,9 +187,6 @@
         <th>현재인원</th>
         <th>신청</th>
     </tr>
-
-      tr th:each="tt : ${ttt}"
-        tr th:each t : ${tt}
 
       <tr th:each="lecture : ${lectures}"  th:onclick="'sendPostRequest(\'/registration/' + ${lecture.getId()} + '\');'">
 
@@ -229,13 +226,14 @@
       <th>신청</th>
       <th>신청상태</th>
     </tr>
-    <tr th:each="rl : ${lectureStudents}" th:if="${student.getId()} == ${rl.getStudent().getId()}">
+    <tr th:each="rl : ${lectureStudents}" th:if="${student.getId()} == ${rl.getStudent().getId()}" th:onclick="'sendPostRequest(\'/registration/' + ${rl.getId()} + '/cancel\');'">
       <td th:text="${rl.getLecture().getLectureType()}"></td>
       <td th:text="${rl.getLecture().getCode()}"></td>
       <td th:text="${rl.getLecture().getKorName()}"></td>
       <td th:text="${rl.getLecture().getCredit()}"></td>
       <td th:text="${rl.getLecture().getProfessorName()}"></td>
-      <td><a href="#" th:href="@{/registration/{id}/cancel(id=${rl.getId()})}">취소</a></td>
+      <td>취소</td>
+
       <td th:text="${rl.getStatus()}"></td>
     </tr>
   </table>

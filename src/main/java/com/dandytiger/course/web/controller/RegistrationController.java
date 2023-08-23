@@ -32,6 +32,7 @@ public class RegistrationController {
     private final TimeTableRepository timeTableRepository;
 
 
+    //로그인 후 메인화면
     @GetMapping("/registration")
     public String courseRegistration(Model model,
                                      HttpServletRequest httpServletRequest){
@@ -61,7 +62,7 @@ public class RegistrationController {
         return "courseRegistration/mainForm";
     }
 
-    // 지금은 회원가입이 없어서 일단 세션은 제외
+    // 신청
     @PostMapping("/registration/{id}")
     public String requestCourseRegistration(@PathVariable("id") Long id,
                                             HttpServletRequest request) {
@@ -74,12 +75,6 @@ public class RegistrationController {
         return "redirect:/";
     }
 
-    @GetMapping("/registration/{id}")
-    public String beforeRequestCourseRegistration(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("id",id);
-        return "courseRegistration/beforeRequest";
-    }
-
     //수강 취소
     @PostMapping("/registration/{id}/cancel")
     public String cancelCourseRegistration(@PathVariable("id") Long id) {
@@ -89,11 +84,7 @@ public class RegistrationController {
         return "redirect:/";
     }
 
-    @GetMapping("/registration/{id}/cancel")
-    public String beforeCancelCourseRegistration(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("id", id);
-        return "courseRegistration/beforeCancel";
-    }
+
 
     @GetMapping("/test")
     public String test(){

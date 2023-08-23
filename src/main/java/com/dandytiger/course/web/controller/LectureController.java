@@ -77,7 +77,7 @@ public class LectureController {
         return "courseRegistration/mainForm";
     }
 
-
+    // 과목명으로 조회
     @GetMapping("/lectureName")
     public String searchByLectureName(Model model, String LectureName,HttpServletRequest httpServletRequest) {
 
@@ -98,6 +98,8 @@ public class LectureController {
 
         return "courseRegistration/mainForm";
     }
+
+    //과목코드로 조회
     @GetMapping("/code")
     public String searchCode(Model model, HttpServletRequest httpServletRequest, String code) {
 
@@ -121,9 +123,5 @@ public class LectureController {
 
         return "courseRegistration/mainForm";
     }
-
-    /**
-     * 페이지 매핑해야함
-     */
 
 }

@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
-/*
-    service에 모든 비즈니스 로직과 로그인 검증 등을 넣을까?
- */
-
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl {

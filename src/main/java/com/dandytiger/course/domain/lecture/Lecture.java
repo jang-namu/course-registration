@@ -29,7 +29,7 @@ public class Lecture {
     private String major; // 전공학과
 
     // time field 관련 오류 뜨는게 존재,,(일부 컴퓨터에서만)
-    private int time;
+//    private int time;
 
     @OneToMany(mappedBy = "lecture")
     private List<TimeTable> timeTable = new ArrayList<>();

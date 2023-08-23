@@ -66,12 +66,14 @@ public class LectureStudentService {
             olds.add(tt);
         }
 
+        //LectureStudent 생성
+        LectureStudent lectureStudent = LectureStudent.createLectureStudent(student, lecture);
+
         if(!duplicateTimeCheck.is_available_registration(olds,lecture.getTimeTable())){
             throw new DuplicateTimeException("강의 시간 겹치는 신청");
         }
 
-        //LectureStudent 생성
-        LectureStudent lectureStudent = LectureStudent.createLectureStudent(student, lecture);
+
 
 
         if (lecture.getCapacity() >= lecture.getCurrentCount()) {
