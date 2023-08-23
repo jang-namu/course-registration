@@ -1,6 +1,8 @@
 package com.dandytiger.course.web.form;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class JoinForm {
 
-    @NotEmpty(message = "학년을 입력하세요")
+    @NotNull(message = "학년을 입력하세요")
     private Integer grade;
 
     @NotEmpty(message = "이름을 입력하세요")

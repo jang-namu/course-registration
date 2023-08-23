@@ -70,7 +70,11 @@
       margin-right:10px;
       text-align: center;
       color:#fff;
-      margin-bottom: 20px;
+      padding: 10px 10px;
+    }
+
+    #search {
+      font-size: 13px;
     }
 
     #list_head {
@@ -85,11 +89,11 @@
       float:left;
       text-align: center;
       height:400px;
-      width:1800px;
+      width:1300px;
       margin-left: 5px;
       border-collapse : collapse;
       margin-bottom: 20px;
-
+      margin-top: 20px;
     }
     .tr th{
       background-color: #dadada;
@@ -123,104 +127,125 @@
       float:left;
       text-align: center;
       height:210px;
-      width:1800px;
+      width:1300px;
       margin-left: 5px;
       border-collapse : collapse;
       margin-bottom: 20px;
       table-layout: fixed;
     }
-
   </style>
 </head>
 <body>
 
 <div id="head_bar">
   <div class="one">2023년도 2학기</div>
+
   <div class="ttt"> 교육과목 </div>
+  <div class="ttt_1" th:text="${student.getMajor()}"></div>
 
-  <div class="ttt_1" th:text="${major}"></div>
-
-  <!--  <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>-- 이것 처럼 동적으로 세션에서 꺼내서 과져와야함-->
   <div class="ttt"> 성명 </div>
-  <div class="ttt_1" th:text="${name}"></div>
+  <div class="ttt_1" th:text="${student.getName()}"></div>
+
+  <div class="ttt"> 현재 학점 </div>
+  <div class="ttt_1" th:text="${student.getCurrentCredit()}"></div>
+
   <button th:onclick="|location.href='@{/logout}'|">로그아웃</button>
 </div>
 
 
 <div id="btn_bar">
-  <button onclick="location.href='/test';" class="btn">    전공과목       </button>
-  <button onclick="location.href='/test';" class="btn">    교양과목       </button>
-  <button onclick="location.href='/test';" class="btn">    과목명(코드) 조회       </button>
+  <button onclick="location.href='/major';" class="btn">    전공과목       </button>
+  <button onclick="location.href='/generalElective';" class="btn">    교양과목       </button>
+  </button>
+  <form action="/lectureName" method="get" class="btn">
+    과목명 조회
+    <input type="text" name="LectureName">
+    <input type="submit" value="검색">
+  </form>
+  <form action="/code" method="get" class="btn">
+    과목코드 조회
+    <input type="text" name="code">
+    <input type="submit" value="검색">
+  </form>
   <button onclick="location.href='/test';" class="btn">    공지사항       </button>
 
 <!--  <button onclick="location.href='/test';" class="btn">    타학과과목       </button>-->
 <!--  <button onclick="location.href='/test';" class="btn">    연계학과과목       </button>-->
 </div>
 <form method="post">
-  <div id=list_head style="overflow-y: scroll; height: 700px">
+  <div id=list_head style="overflow-y: scroll; height: 700px; width: 1300px">
     <table border="1" id="sub_list">
 
       <tr class="tr">
+        <th >학과</th>
         <th>이수구분</th>
-        <th>학수번호</th> <!-- 일단 DB id 값으로 대체-->
+        <th>과목코드</th>
         <th>교과목명</th>
         <th>학점</th>
         <th>교수</th>
+        <th>수강정원</th>
+        <th>현재인원</th>
         <th>신청</th>
     </tr>
 
-    <tr th:each="lecture : ${lectures}">
-        <td th:text="${lecture.getType()}"></td>
-        <td th:text="${lecture.getId()}"></td>
+      <tr th:each="lecture : ${lectures}"  th:onclick="'sendPostRequest(\'/registration/' + ${lecture.getId()} + '\');'">
+
+<!--        <!—      전공이면 학과 th 생기고 그렇지 않으면 학과 th 자체가 없어짐—>-->
+        <td th:text="${lecture.getMajor()}" th:if = "${lecture.getLectureType().equals('전공')}"></td>
+        <td th:text="${lecture.getLectureType()}" th:if = "${lecture.getLectureType().equals('교양')}" ></td>
+        <td th:text="${lecture.getLectureDivision()}"></td>
+        <td th:text="${lecture.getCode()}"></td>
         <td th:text="${lecture.getKorName()}"></td>
         <td th:text="${lecture.getCredit()}"></td>
         <td th:text="${lecture.getProfessorName()}"></td>
-        <td><a href="#" th:href="@{/registration/{id}(id=${lecture.getId()})}">신청하기</a></td>
-    </tr>
+        <td th:text="${lecture.getCapacity()}"></td>
+        <td th:text="${lecture.getCurrentCount()}"></td>
+        <td>신청</td>
+      </tr>
     </table>
   </div>
 </form>
 
 <div id=list_jpg>
-
   <div class=jpg>
     >
   </div>
-
   <div>
     수강신청내역
   </div>
-
 </div>
+
 <div class= temp_bar>
   <table border="1" id="last_list">
     <tr class="tr" id="chk_append">
-      <th>주차</th>
       <th>이수구분</th>
       <th>학수번호</th>
       <th>교과목명</th>
       <th>학점</th>
-      <th>원어여부</th>
-      <th>요일 및 교시(강의실)</th>
-      <th>개설학과</th>
-      <th>교강사</th>
+      <th>교수</th>
       <th>신청</th>
+      <th>신청상태</th>
     </tr>
+    <tr th:each="rl : ${lectureStudents}" th:if="${student.getId()} == ${rl.getStudent().getId()}" th:onclick="'sendPostRequest(\'/registration/' + ${rl.getId()} + '/cancel\');'">
+      <td th:text="${rl.getLecture().getLectureType()}"></td>
+      <td th:text="${rl.getLecture().getCode()}"></td>
+      <td th:text="${rl.getLecture().getKorName()}"></td>
+      <td th:text="${rl.getLecture().getCredit()}"></td>
+      <td th:text="${rl.getLecture().getProfessorName()}"></td>
+      <td>취소</td>
 
-    <tr id="add_1" class="temp_1">
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td class="deltd_1"></td>
-      <td><input type ="button" value="취소" class="delete_btn_1"/></td>
+      <td th:text="${rl.getStatus()}"></td>
     </tr>
   </table>
 </div>
 </body>
 </html>
-
+<script>
+  function sendPostRequest(url) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>

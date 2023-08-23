@@ -25,6 +25,11 @@
             margin-bottom: 20px;
         }
 
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
 
         #login .login_con .menu>ul li{
             width:175px;
@@ -87,6 +92,12 @@
             color: #e2e0e1;
             font-size: 11px;
         }
+
+        a {
+            text-decoration: none;
+            color: #e2e0e1;
+        }
+
         .btn_login {
             display: block;
             position: absolute;
@@ -118,18 +129,22 @@
             <h3>
                 <font size="26" color=white>LOGIN</font>
             </h3>
+
+
             <div class=login_area>
                 <div class="id_w">
                     <p>
                         <label for="id">아이디(학번)</label>
                         <span>
-					<input type="text" name="stuno" id="id" th:field="*{id}">
+					<input type="text" name="stuno" id="id" th:field="*{id}" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{id}">아이디를 입력하세요</div>
 				</span>
                     </p>
                     <p>
                         <label for="pw">포털비밀번호</label>
                         <span>
-					<input type="password"  name="pwd" id="pw" th:field="*{pw}">
+					<input type="password"  name="pwd" id="pw" th:field="*{pw}" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{pw}">비밀번호를 입력하세요</div>
 				</span>
                     </p>
                     <button type="submit" class="btn_login">로그인</button>
@@ -138,6 +153,8 @@
                         <a style ="cursor:pointer;">아이디</a>
                         &nbsp;
                         <a style="cursor:pointer;">비밀번호 찾기</a>
+                        &nbsp;
+                        <a href="/join">회원가입</a>
                     </p>
                 </div>
             </div>

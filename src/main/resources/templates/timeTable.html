@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>시간표</title>
+  <style>
+    main {
+
+    }
+
+    #wrapper #canvas {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      border: 2px solid #8c8989;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+    #wrapper {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 120%;
+    }
+  </style>
+</head>
+<body>
+<header>
+
+</header>
+
+<main>
+  <div id="wrapper">
+    <canvas id = "canvas"></canvas>
+  </div>
+
+</main>
+
+<footer>
+
+</footer>
+
+<!-- 텍스트를 width 에 맞춰 줄바꿈 해주는 함수-->
+<script>
+  function drawWrappedText(data_list, x, y, maxWidth, lineHeight) {
+    let line = '';
+
+    for (let i = 0; i < data_list.length; i++) {
+      const testLine = line + data_list[i] + ' ';
+      const metrics = context.measureText(testLine);
+      const testWidth = metrics.width;
+
+      if (testWidth > maxWidth && i > 0) {
+        context.fillText(line, x, y);
+        line = data_list[i] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+
+    context.fillText(line, x, y);
+  }
+</script>
+<!-- Canvas 그리는 함수-->
+<script>
+  const canvas = document.querySelector('#canvas');
+  const context = canvas.getContext('2d');
+
+  const day_list = ['월','화','수','목','금','토'];
+
+  // === START 화면 비율 Scaling 변수 ===
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const backingStoreRatio = context.webkitBackingStorePixelRatio ||
+          context.mozBackingStorePixelRatio ||
+          context.msBackingStorePixelRatio ||
+          context.oBackingStorePixelRatio ||
+          context.backingStorePixelRatio || 1;
+  const ratio = devicePixelRatio / backingStoreRatio;
+
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  // === END 화면 비율 Scaling 변수 ===
+
+  // === START 시간표 디자인 변수 ===
+  const numLines = 5; // 열의 개수
+  const time_column = canvas.width / 17; // 시간 column 크기
+  const line_spacing_ratio = 1 / (numLines + 1);  // 칸의 간격 비율
+  const line_height = canvas.height;  // 선 높이
+  const column_width = (canvas.width - time_column) /6 ; // 한 칸의 넓이
+  const unit_height = canvas.height / 67; // 단위( 15분 ) 높이
+  const margin_text = 12; // 텍스트 간 간격
+  const maxWidth = column_width - 2 * margin_text;    // 텍스트 최대 너비
+  // === END 시간표 디자인 변수 ===
+
+  // === START 시간표 뼈대 ===
+
+  // canvas 선 설정
+  context.strokeStyle = '#8c8989';
+  context.lineWidth = 1;
+
+  // 제목(세로 선) 그리기
+  context.beginPath();
+  context.moveTo(time_column,0);
+  context.lineTo(time_column,line_height);
+  context.stroke();
+
+  // 제목(가로 선) 그리기
+  context.beginPath();
+  context.moveTo(0,unit_height);
+  context.lineTo(canvas.width,unit_height );
+  context.stroke();
+  // 폰트 설정
+  context.font = '18px Arial';
+  // 시간
+  context.fillText('시간',24,18);
+  // 날짜 쓰기
+  context.fillText(day_list[0],time_column + column_width /2 , 18);
+
+  // 월 ~ 토 column 그리기
+  for (let i = 1 ; i<=numLines;i++){
+    const x_ratio = i * line_spacing_ratio;
+    const x = x_ratio * (canvas.width - time_column) + time_column;
+    context.beginPath();
+    context.fillText(day_list[i],x + column_width/2 ,18); // 날짜 쓰기
+    context.moveTo(x ,0);
+    context.lineTo(x ,line_height);
+    context.stroke();
+  }
+  const height_0800 = unit_height * 3; // 0800 선 높이
+
+  // 30 분 최초 row 그리기
+  context.beginPath();
+  context.moveTo(0,unit_height * 3);
+  context.lineTo(canvas.width,unit_height * 3);
+  context.stroke();
+
+  // 0730 시간 작성
+  context.fillText('07:30',24,unit_height * 2);
+
+  // 시간표 row 그리기
+  for (let i=1;i<=16;i++){
+    const y = unit_height * i * 4 + height_0800;
+    context.beginPath();
+    context.moveTo(0,y);
+    context.fillText(`${i + 7}:00`,24,y - 2*unit_height);
+    context.lineTo(canvas.width,y);
+    context.stroke();
+  }
+  // === END 시간표 뼈대 ===
+
+  /** 시간표 그리는 방법
+   *  1. time_column : 시간이 적힌 제목열 ( ex: 09:00 ), day_index : 요일 정보, column_width : 시간표 한칸의 넓이
+   *  2. time_column + day_index * column_width 시작 (가로)
+   *  3. unit_height : 15분 간격의 칸의 높이, start_time : 시작하는 칸
+   *  4. unit_height + start_time * unit_height 시작 (세로)
+   * */
+
+          // 시간표 데이터 적용
+  let day_index = 1; // 월 : 0 ~ 토 : 5
+  let start_time = 6;
+  let end_time = 11;
+
+  // 월요일 인덱스 0 , 1교시 시작 : 6 종료 : 9
+  context.fillStyle = '#bfe3f5';
+  context.fillRect(
+          time_column + day_index * column_width,
+          unit_height + start_time * unit_height,
+          column_width,
+          unit_height*(end_time - start_time + 1));
+  // 시간표에 Text 추가하는 함수
+
+  context.font = '18px Arial';
+  context.fillStyle = 'black';
+
+  let y = unit_height + start_time * unit_height + unit_height*(end_time - start_time + 1) * 0.3333;
+  let x = time_column + day_index * column_width + margin_text;
+  let data_list = ['시스템보안과해킹','(이승수)','제 7호관','정보기술대학','SH407','[1-2A교시 09:00-10:30]'];
+
+  drawWrappedText(data_list, x, y, maxWidth, 24);
+  // Canvas Scaling
+  context.scale(ratio, ratio);
+
+</script>
+</body>
+</html>
