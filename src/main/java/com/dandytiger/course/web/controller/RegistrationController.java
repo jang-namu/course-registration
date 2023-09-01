@@ -1,5 +1,8 @@
 package com.dandytiger.course.web.controller;
 
+import com.dandytiger.course.domain.dto.LectureDto;
+import com.dandytiger.course.domain.dto.LectureStudentDto;
+import com.dandytiger.course.domain.dto.StudentDto;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.domain.student.Student;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,12 +55,19 @@ public class RegistrationController {
         }
 
         Student findStudent = studentService.findById(student.getId()).get();
-        model.addAttribute("student", findStudent);
+        StudentDto studentDto = new StudentDto();
+        studentDto.transferDto(findStudent);
+        model.addAttribute("student", studentDto);
 
-        List<Lecture> lectures = lectureService.findLectures();
+
+        List<LectureDto> lectures = lectureService.findLectures()
+                .stream().map(l->new LectureDto(l))
+                .collect(Collectors.toList());
         model.addAttribute("lectures",lectures);
 
-        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+        List<LectureStudentDto> lectureStudents = lectureStudentService.findLectureStudents()
+                .stream().map(ls-> new LectureStudentDto(ls))
+                .collect(Collectors.toList());
         model.addAttribute("lectureStudents",lectureStudents);
 
         return "courseRegistration/mainForm";
@@ -83,8 +94,6 @@ public class RegistrationController {
 
         return "redirect:/";
     }
-
-
 
     @GetMapping("/test")
     public String test(){

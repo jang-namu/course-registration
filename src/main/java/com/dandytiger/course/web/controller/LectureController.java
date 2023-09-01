@@ -1,5 +1,8 @@
 package com.dandytiger.course.web.controller;
 
+import com.dandytiger.course.domain.dto.LectureDto;
+import com.dandytiger.course.domain.dto.LectureStudentDto;
+import com.dandytiger.course.domain.dto.StudentDto;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecturestudent.LectureStudent;
 import com.dandytiger.course.domain.student.Student;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.Normalizer;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,13 +44,22 @@ public class LectureController {
         }
 
         Student findStudent = studentService.findById(student.getId()).get();
-        model.addAttribute("student", findStudent);
 
-        List<Lecture> lectures = lectureService.findMLecture(student.getMajor());
+        StudentDto studentDto = new StudentDto();
+        studentDto.transferDto(student);
+        model.addAttribute("student", studentDto);
+
+
+        List<LectureDto> lectures = lectureService.findMLecture(student.getMajor())
+                .stream().map(l->new LectureDto(l))
+                .collect(Collectors.toList());
 
         model.addAttribute("lectures", lectures);
 
-        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+        List<LectureStudentDto> lectureStudents = lectureStudentService.findLectureStudents()
+                        .stream().map(ls->new LectureStudentDto(ls))
+                        .collect(Collectors.toList());
+
         model.addAttribute("lectureStudents",lectureStudents);
 
         return "courseRegistration/mainForm";
@@ -65,13 +78,20 @@ public class LectureController {
         }
 
         Student findStudent = studentService.findById(student.getId()).get();
-        model.addAttribute("student", findStudent);
+        StudentDto studentDto = new StudentDto();
+        studentDto.transferDto(student);
+        model.addAttribute("student", studentDto);
 
-        List<Lecture> lectures = lectureService.findGELecture();
+        List<LectureDto> lectures = lectureService.findGELecture()
+                .stream().map(l->new LectureDto(l))
+                .collect(Collectors.toList());
 
         model.addAttribute("lectures", lectures);
 
-        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+
+        List<LectureStudentDto> lectureStudents = lectureStudentService.findLectureStudents()
+                .stream().map(ls -> new LectureStudentDto(ls))
+                .collect(Collectors.toList());
         model.addAttribute("lectureStudents",lectureStudents);
 
         return "courseRegistration/mainForm";
@@ -86,14 +106,20 @@ public class LectureController {
 
 
         Student findStudent = studentService.findById(student.getId()).get();
-        model.addAttribute("student", findStudent);
+        StudentDto studentDto = new StudentDto();
+        studentDto.transferDto(findStudent);
+        model.addAttribute("student", studentDto);
 
 
-        List<Lecture> lectures = lectureService.findByLectureName(LectureName);
+        List<LectureDto> lectures = lectureService.findByLectureName(LectureName)
+                .stream().map(l -> new LectureDto(l))
+                .collect(Collectors.toList());
 
         model.addAttribute("lectures", lectures);
 
-        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+        List<LectureStudentDto> lectureStudents = lectureStudentService.findLectureStudents()
+                .stream().map(ls -> new LectureStudentDto(ls))
+                .collect(Collectors.toList());
         model.addAttribute("lectureStudents",lectureStudents);
 
         return "courseRegistration/mainForm";
@@ -112,13 +138,20 @@ public class LectureController {
         }
 
         Student findStudent = studentService.findById(student.getId()).get();
-        model.addAttribute("student", findStudent);
+        StudentDto studentDto = new StudentDto();
+        studentDto.transferDto(findStudent);
+        model.addAttribute("student", studentDto);
 
-        List<Lecture> lectures = lectureService.findByCode(code);
+
+        List<LectureDto> lectures = lectureService.findByCode(code)
+                .stream().map(l->new LectureDto(l))
+                .collect(Collectors.toList());
 
         model.addAttribute("lectures", lectures);
 
-        List<LectureStudent> lectureStudents = lectureStudentService.findLectureStudents();
+        List<LectureStudentDto> lectureStudents = lectureStudentService.findLectureStudents()
+                .stream().map(ls -> new LectureStudentDto(ls))
+                .collect(Collectors.toList());
         model.addAttribute("lectureStudents",lectureStudents);
 
         return "courseRegistration/mainForm";

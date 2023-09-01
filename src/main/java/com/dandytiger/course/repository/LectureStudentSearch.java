@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class LectureStudentSearch {
-
     private String studentName;
     private RegistrationStatus registrationStatus;
 }

@@ -50,6 +50,8 @@ public class LectureStudentService {
 
         Lecture lecture = lectureRepository.findOneWithFetchJoin(lectureId);
 
+        log.info("lecture = {} ",lecture.getClass());
+
         /**
          * 신청하려는 강의가 시간이 겹치는 확인하는 로직
          */
@@ -65,6 +67,7 @@ public class LectureStudentService {
             List<TimeTable> tt = l.getTimeTable();
             olds.add(tt);
         }
+
 
         //LectureStudent 생성
         LectureStudent lectureStudent = LectureStudent.createLectureStudent(student, lecture);

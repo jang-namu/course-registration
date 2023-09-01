@@ -3,15 +3,22 @@ package com.dandytiger.course.repository;
 import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.lecture.QLecture;
 import com.dandytiger.course.domain.timetable.QTimeTable;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static org.springframework.util.StringUtils.*;
+
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class LectureRepository {
 
     private final EntityManager em;
@@ -30,35 +37,39 @@ public class LectureRepository {
 
     //==동적쿼리==//
 
-    //과목명으로 검색
-    public List<Lecture> findByLectureName(String name) {
+    public List<Lecture> findByLectureNameDynamicQuery(String name){
         return query.selectFrom(l)
-                .where(l.korName.contains(name))
+                .where(nameEq(name))
                 .fetch();
     }
 
-    //과목코드으로 검색
-    public List<Lecture> findByCode(String code) {
+    private BooleanExpression nameEq(String name) {
+        return hasText(name) ? l.korName.contains(name) : null;
+    }
+
+    public List<Lecture> findByLectureCodeDynamicQuery(String code){
         return query.selectFrom(l)
-                .where(l.code.contains(code))
+                .where(codeEq(code))
                 .fetch();
     }
 
+    private BooleanExpression codeEq(String code) {
+        return hasText(code) ? l.code.contains(code) : null;
+    }
 
-    //교양과목 검색
     public List<Lecture> findGELecture() {
-        return query.selectFrom(l)
-                .where(l.lectureType.contains("교양"))
-//                .where(l.type.contains("교양"))
-                .fetch();
+        return em.createQuery("select l from Lecture l where l.lectureType=:type",Lecture.class)
+                .setParameter("type","교양")
+                .getResultList();
     }
 
-    //전공과목 검색(지금은 강의가 컴공밖에 없어서 이렇게 만듬
     public List<Lecture> findMLecture(String major) {
-        return query.selectFrom(l)
-                .where(l.major.contains(major))
-                .fetch();
+        log.info("major = {} ", major);
+        return em.createQuery("select l from Lecture l where l.major=:type",Lecture.class)
+                .setParameter("type",major)
+                .getResultList();
     }
+
     //==동적쿼리 끝==//
 
     //전체 다 검색
@@ -72,7 +83,6 @@ public class LectureRepository {
                 .rightJoin(l.timeTable,t).fetchJoin()
                 .where(l.id.eq(id))
                 .fetchOne();
-
     }
 
 }

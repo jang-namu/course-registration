@@ -226,6 +226,7 @@
       <th>신청</th>
       <th>신청상태</th>
     </tr>
+
     <tr th:each="rl : ${lectureStudents}" th:if="${student.getId()} == ${rl.getStudent().getId()}" th:onclick="'sendPostRequest(\'/registration/' + ${rl.getId()} + '/cancel\');'">
       <td th:text="${rl.getLecture().getLectureType()}"></td>
       <td th:text="${rl.getLecture().getCode()}"></td>
@@ -235,6 +236,7 @@
       <td>취소</td>
 
       <td th:text="${rl.getStatus()}"></td>
+    </tr>
     </tr>
   </table>
 </div>
@@ -248,4 +250,5 @@
     document.body.appendChild(form);
     form.submit();
   }
+
 </script>

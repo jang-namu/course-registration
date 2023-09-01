@@ -9,18 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class CourseApplication {
-
     public static void main(String[] args) {
-
         SpringApplication.run(CourseApplication.class, args);
-
     }
-
-    @Bean
-    JPAQueryFactory jpaQueryFactory(EntityManager em) {
-        return new JPAQueryFactory(em);
-    }
-
-
-
 }

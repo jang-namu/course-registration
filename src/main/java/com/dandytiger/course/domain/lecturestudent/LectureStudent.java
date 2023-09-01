@@ -54,6 +54,7 @@ public class LectureStudent {
         List<LectureStudent> registrationLectures = student.getRegistrationLectures();
         for (LectureStudent rl : registrationLectures) {
             String lectureName = rl.getLecture().getKorName();
+            log.info("createLectureStudent lecture = {} ",lecture.getKorName());
             if (lecture.getKorName().equals(lectureName)){
                 throw new ApplySameLectureException("같은 과목 신청");
             }

@@ -25,11 +25,11 @@ public class LectureService {
     }
 
     public List<Lecture> findByLectureName(String name) {
-        return lectureRepository.findByLectureName(name);
+        return lectureRepository.findByLectureNameDynamicQuery(name);
     }
 
     public List<Lecture> findByCode(String code) {
-        return lectureRepository.findByCode(code);
+        return lectureRepository.findByLectureCodeDynamicQuery(code);
     }
 
     public List<Lecture> findGELecture() {
