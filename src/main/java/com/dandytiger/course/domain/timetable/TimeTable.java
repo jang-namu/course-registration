@@ -12,7 +12,7 @@ public class TimeTable {
     private Long id;
 
     @Embedded
-    private TimeTableMoreInformation scheduleMoreInformation;
+    private TimeTableMoreInformation timeTableMoreInformation;
 
     private String code;
 
@@ -22,7 +22,7 @@ public class TimeTable {
 
     public void initTimeTable(Lecture lecture, TimeTableMoreInformation scheduleMoreInformation, String code) {
         this.lecture = lecture;
-        this.scheduleMoreInformation = scheduleMoreInformation;
+        this.timeTableMoreInformation = scheduleMoreInformation;
         this.code = code;
     }
     public TimeTable() {

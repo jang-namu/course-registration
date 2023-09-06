@@ -1,9 +1,13 @@
 package com.dandytiger.course.domain.dto;
 
 import com.dandytiger.course.domain.lecture.Lecture;
+import com.dandytiger.course.domain.timetable.TimeTable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter @Setter
@@ -19,6 +23,7 @@ public class LectureDto {
     private String professorName;
     private int capacity;
     private int currentCount;
+    private TimeTableMoreInformationDto timeTableMoreInformationDto;
 
     public LectureDto(Lecture lecture) {
         this.id = lecture.getId();

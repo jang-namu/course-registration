@@ -45,15 +45,15 @@ public class DuplicateTimeCheck {
                 log.info("두번째 for 문 start");
                 for (TimeTable nr : new_registration) {
                     log.info("세번째 for 문 start");
-                    if (o.getScheduleMoreInformation().getDay() == nr.getScheduleMoreInformation().getDay()) {
+                    if (o.getTimeTableMoreInformation().getDay() == nr.getTimeTableMoreInformation().getDay()) {
                         result = false;
                         break;
                     }else {
                         if (check_time_duplication(
-                                o.getScheduleMoreInformation().getStartTIme(),
-                                o.getScheduleMoreInformation().getEndTime(),
-                                nr.getScheduleMoreInformation().getStartTIme(),
-                                nr.getScheduleMoreInformation().getEndTime())){
+                                o.getTimeTableMoreInformation().getStartTIme(),
+                                o.getTimeTableMoreInformation().getEndTime(),
+                                nr.getTimeTableMoreInformation().getStartTIme(),
+                                nr.getTimeTableMoreInformation().getEndTime())){
                             result = false;
                             break;
                         }

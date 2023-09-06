@@ -5,6 +5,7 @@ import com.dandytiger.course.domain.lecture.Lecture;
 import com.dandytiger.course.domain.timetable.TimeTable;
 import lombok.Data;
 
+import java.sql.Array;
 import java.util.List;
 
 @Data
