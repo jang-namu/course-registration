@@ -23,10 +23,11 @@
 6. @Slf4j 로그 어노테이션 혼용 하지 말고, 하나 정해서 쓰자. (완료)
 7. Entity 를 직접적으로 프론트에 반환하면 불필요한 데이터가 생길수 있고, 보여지면 안되는 데이터가 노출될 수 있으니 가급적 Dto를 사용해서 변환해서 반환하면 좋다. (완료)
 8. CourseApplication에 빈생성 하지말고, config 는 폴더를 만들고 config 클래스 만들어서 빈생성하자. (완료)
-9. Restful하게 쓸거면 수강 취소 같은건 deletemapping을 써도 좋지 않을까
--> HTML Form에서 GET/POST 만 지원
--> API 를 만들때는 DeleteMapping 을 사용하자
-10. LectureStudentRepository의 구현은 다른 방법으로 한것도 보여주고 싶어서 한것이라면 좋지만, querydsl을 더 효율적으로 활용한 코드는 아닌 것 같다. 
+9. Restful하게 쓸거면 수강 취소 같은건 deletemapping을 써도 좋지 않을까 (완료) <br/>
+-> HTML Form에서 GET/POST 만 지원  <br/>
+-> API 를 만들때는 DeleteMapping 을 사용하자  <br/>
+
+10. LectureStudentRepository의 구현은 다른 방법으로 한것도 보여주고 싶어서 한것이라면 좋지만, querydsl을 더 효율적으로 활용한 코드는 아닌 것 같다.  <br/>
 -> N+1 문제 해결하기 위한 fetch join 쿼리를 Querydsl 이 아닌 순수 JPA 를 활용해 직접 JPQL 을 작성
 
 저장 트랜잭션 처리는 적절히 잘 되어 있다.
