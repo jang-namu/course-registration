@@ -48,11 +48,29 @@ public class LectureStudentRepository {
         em.remove(lectureStudent);
     }
 
+//    public List<LectureStudent> findRegistrationLectures(Long studentId) {
+//        return query.selectFrom(ls)
+//                .rightJoin(ls.lecture, l).fetchJoin()
+//                .rightJoin(ls.lecture.timeTable, t).fetchJoin()
+//                .where(ls.student.id.eq(studentId))
+//                .distinct().fetch();
+//    }
+//
     public List<LectureStudent> findRegistrationLectures(Long studentId) {
-        return query.selectFrom(ls)
-                .rightJoin(ls.lecture, l).fetchJoin()
-                .rightJoin(ls.lecture.timeTable, t).fetchJoin()
-                .where(ls.student.id.eq(studentId))
-                .distinct().fetch();
+        return em.createQuery("select ls from LectureStudent ls right join fetch ls.lecture as l " +
+                "right join fetch ls.lecture.timeTable t where ls.student.id=:studentId",LectureStudent.class)
+                .setParameter("studentId",studentId)
+                .getResultList();
     }
+
+       /* select
+        distinct lectureStudent
+    from
+        LectureStudent lectureStudent
+    right join
+        fetch lectureStudent.lecture as lecture
+    right join
+        fetch lectureStudent.lecture.timeTable as timeTable
+    where
+        lectureStudent.student.id = ?1 */
 }
