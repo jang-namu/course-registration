@@ -26,8 +26,8 @@
 9. Restful하게 쓸거면 수강 취소 같은건 deletemapping을 써도 좋지 않을까
 -> HTML Form에서 GET/POST 만 지원
 -> API 를 만들때는 DeleteMapping 을 사용하자
-10. LectureStudentRepository의 구현은 다른 방법으로 한것도 보여주고 싶어서 한것이라면 좋지만, querydsl을 더 효율적으로 활용한 코드는 아닌 것 같다. (진행중)
--> N+1 문제 해결하기 위한 fetch join 쿼리를 Querydsl 이 아닌 Spring Data JPA 를 활용해서 구현
+10. LectureStudentRepository의 구현은 다른 방법으로 한것도 보여주고 싶어서 한것이라면 좋지만, querydsl을 더 효율적으로 활용한 코드는 아닌 것 같다. 
+-> N+1 문제 해결하기 위한 fetch join 쿼리를 Querydsl 이 아닌 순수 JPA 를 활용해 직접 JPQL 을 작성
 
 저장 트랜잭션 처리는 적절히 잘 되어 있다.
 다만 조회시에 컨트롤러에 너무 많은 코드가 있어 지저분해보일 수 있고, 용도별로 서비스단에서 함수 구현해서 사용할 수 있으면 좋을 것 같다. (진행중)
